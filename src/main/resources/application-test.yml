@@ -4,4 +4,4 @@ security:
     username: ${BASIC_AUTH_USER}
 cso:
   host: http://127.0.0.1/
-  namespace: ${CDDS_NAMESPACE}
+  namespace: ${CSO_NAMESPACE}
