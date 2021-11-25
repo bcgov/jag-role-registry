@@ -80,7 +80,7 @@ public class RoleController {
                 UriComponentsBuilder.fromHttpUrl(host + "roles/application")
                         .queryParam("domain", getRolesForApplication.getDomain())
                         .queryParam("applicationNm", getRolesForApplication.getApplication())
-                        .queryParam("type", getRolesForApplication.getType());
+                        .queryParam("identifierType", getRolesForApplication.getType());
         try {
             HttpEntity<RoleResults> resp =
                     restTemplate.exchange(
