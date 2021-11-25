@@ -64,7 +64,7 @@ public class RoleController {
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
                                     "Error received from ORDS",
-                                    "getDigitalDisplayCourtList",
+                                    "getRolesForIdentifier",
                                     ex.getMessage(),
                                     getRolesForIdentifier)));
             throw new ORDSException();
