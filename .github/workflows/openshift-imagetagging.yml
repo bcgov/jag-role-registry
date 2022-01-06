@@ -6,7 +6,7 @@ on:
     workflow_dispatch:
         inputs:
             app:
-                description: 'App Name (jag-role-registry)'
+                description: 'App Name (jag-role-registry/jag-role-registry-tests)'
                 required: true
                 default: 'jag-role-registry'
             imageSourceEnv:
