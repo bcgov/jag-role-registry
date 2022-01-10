@@ -31,7 +31,7 @@ public class HealthControllerTests {
     private ObjectMapper objectMapper;
 
     @Test
-    public void getHealthTest() throws IOException {
+    public void getHealthTest() throws JsonProcessingException {
         HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         var resp = new GetHealthResponse();
