@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
 public class RoleControllerTest {
     private RoleController roleController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Autowired private ObjectMapper objectMapper;
 
@@ -106,50 +106,5 @@ public class RoleControllerTest {
 
         //     Assert response is correct
         Assertions.assertNotNull(out);
-    }
-
-    @Test
-    public void badOrdsTestApplication() {
-
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
-
-        when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<Object>>any()))
-                .thenThrow(new RestClientException("BAD"));
-
-        Assertions.assertThrows(
-                ORDSException.class,
-                () -> roleController.getRolesForApplication(new GetRolesForApplication()));
-    }
-
-    @Test
-    public void badOrdsTestIdentifier() {
-
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
-
-        when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<Object>>any()))
-                .thenThrow(new RestClientException("BAD"));
-
-        Assertions.assertThrows(
-                ORDSException.class,
-                () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
-    }
-
-    @Test
-    public void securityTestFail_Then403() throws Exception {
-        var response =
-                mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
-                        .andExpect(status().is4xxClientError())
-                        .andReturn();
-
-        Assertions.assertEquals(
-                response.getResponse().getStatus(), HttpStatus.UNAUTHORIZED.value());
     }
 }
