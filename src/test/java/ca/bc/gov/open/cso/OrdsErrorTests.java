@@ -1,5 +1,8 @@
 package ca.bc.gov.open.cso;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import ca.bc.gov.open.cso.controllers.HealthController;
 import ca.bc.gov.open.cso.controllers.RoleController;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
@@ -15,22 +18,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.ws.server.endpoint.annotation.RequestPayload;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 public class OrdsErrorTests {
-    @Autowired
-    private MockMvc mockMvc;
+    @Autowired private MockMvc mockMvc;
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock
-    private RestTemplate restTemplate;
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void pingOrdsFail() {
@@ -52,7 +49,8 @@ public class OrdsErrorTests {
         RoleController roleController = new RoleController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
-                ORDSException.class, () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
+                ORDSException.class,
+                () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
     }
 
     @Test
@@ -60,7 +58,8 @@ public class OrdsErrorTests {
         RoleController roleController = new RoleController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
-                ORDSException.class, () -> roleController.getRolesForApplication(new GetRolesForApplication()));
+                ORDSException.class,
+                () -> roleController.getRolesForApplication(new GetRolesForApplication()));
     }
 
     @Test
@@ -72,5 +71,4 @@ public class OrdsErrorTests {
         Assertions.assertEquals(
                 HttpStatus.UNAUTHORIZED.value(), response.getResponse().getStatus());
     }
-
 }
