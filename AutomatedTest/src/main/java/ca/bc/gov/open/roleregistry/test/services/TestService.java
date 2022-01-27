@@ -52,7 +52,7 @@ public class TestService {
 
     private File zipAndReturnErrors() throws IOException {
         File dir = new File(".");
-        FileFilter fileFilter = new WildcardFileFilter("TestSuite_Roleregistry-*.txt");
+        FileFilter fileFilter = new WildcardFileFilter("RoleRegistry*.txt");
         File[] files = dir.listFiles(fileFilter);
         FileOutputStream fos = new FileOutputStream("TestErrors.zip");
         ZipOutputStream zipOut = new ZipOutputStream(fos);
