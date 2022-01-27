@@ -23,7 +23,8 @@ public class TestService {
     public TestService() {}
 
     public void setAuthentication() throws IOException {
-        InputStream template = getClass().getResourceAsStream("/Roleregistry-soapui-project-template.xml");
+        InputStream template =
+                getClass().getResourceAsStream("/Roleregistry-soapui-project-template.xml");
         Scanner scanner = new Scanner(template);
 
         File project = new File("./Roleregistry-soapui-project.xml");
@@ -31,7 +32,8 @@ public class TestService {
             project.delete();
         }
         project.createNewFile();
-        BufferedWriter writer = new BufferedWriter(new FileWriter("./Roleregistry-soapui-project.xml"));
+        BufferedWriter writer =
+                new BufferedWriter(new FileWriter("./Roleregistry-soapui-project.xml"));
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if (line.contains("{AUTHENTICATION_USERNAME}")) {

@@ -1,6 +1,5 @@
 package ca.bc.gov.open.roleregistry.test.config;
 
-import ca.bc.gov.open.roleregistry.test.config.MyBasicAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${security.basic-auth.password}")
     private String password;
 
-    @Autowired
-    MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+    @Autowired MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

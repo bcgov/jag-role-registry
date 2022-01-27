@@ -1,6 +1,5 @@
 package ca.bc.gov.open.roleregistry.test.config;
 
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityRequirement;

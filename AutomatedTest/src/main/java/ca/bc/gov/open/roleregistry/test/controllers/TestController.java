@@ -1,7 +1,6 @@
 package ca.bc.gov.open.roleregistry.test.controllers;
 
 import ca.bc.gov.open.roleregistry.test.services.TestService;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
