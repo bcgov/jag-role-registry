@@ -2,7 +2,7 @@ apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
   name: ${APP_NAME}
-  description: Deployment template for the JAG-CDDS
+  description: Deployment template for the JAG-ROLE-REGISTRY
   
 labels:
   app: ${APP_NAME}
@@ -26,7 +26,7 @@ parameters:
   description: The OpenShift namespace prefix
   required: false
   # Below value must be changed as per gold cluster oc nameplate
-  value: ****
+  value: e97df9
   
 - name: OC_ENV
   description: The OpenShift environment, ie dev, test or prod
@@ -47,6 +47,10 @@ parameters:
   required: false
   # Below value must be changed as per gold cluster certificate/DNS
   value: apps.gold.devops.gov.bc.ca
+- name: AUTH_HEADER
+  description: The http Authorization header required for performing livenessProbe & readinessProbe in deployment config during container start.
+  required: true
+  value: ''
   
 objects:
 
@@ -72,7 +76,6 @@ objects:
           name: ${COMPONENT_NAME}
       spec:
         containers:
-          # Below Immage url must be changed as per gold cluster image stream
           - image: >-
               image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/${COMPONENT_NAME}:${OC_ENV}
             name: ${COMPONENT_NAME} 
@@ -83,65 +86,71 @@ objects:
             - name: BASIC_AUTH_USER
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: BASIC_AUTH_USER
             - name: BASIC_AUTH_PASS
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: BASIC_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: SPRING_PROFILE
             - name: SPLUNK_HTTP_URL
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-splunk-config
+                  name: role-registry-splunk-config
                   key: SPLUNK_HTTP_URL
             - name: SPLUNK_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-splunk-config
+                  name: role-registry-splunk-config
                   key: SPLUNK_TOKEN
             - name: SPLUNK_INDEX
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-splunk-config
+                  name: role-registry-splunk-config
                   key: SPLUNK_INDEX
             - name: ORDS_HOST
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: ORDS_HOST
             resources:
               limits:
-                cpu: 1000m
-                memory: 1000Mi
-              requests:
                 cpu: 500m
                 memory: 512Mi
-              livenessProbe:
-                httpGet:
-                  path: "/actuator/health"
-                  port: 8080
-                  scheme: HTTP
-                initialDelaySeconds: 30
-                timeoutSeconds: 60
-                periodSeconds: 10
-                successThreshold: 1
-                failureThreshold: 3
-              readinessProbe:
-                httpGet:
-                  path: "/actuator/health"
-                  port: 8080
-                  scheme: HTTP
-                initialDelaySeconds: 10
-                timeoutSeconds: 60
-                periodSeconds: 10
-                successThreshold: 1
-                failureThreshold: 3
+              requests:
+                cpu: 50m
+                memory: 256Mi
+            livenessProbe:
+              httpGet:
+                path: "/actuator/health"
+                port: 8080
+                scheme: HTTP
+                httpHeaders:
+                - name: Authorization
+                  value: ${AUTH_HEADER}
+              initialDelaySeconds: 100
+              timeoutSeconds: 30
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            readinessProbe:
+              httpGet:
+                path: "/actuator/health"
+                port: 8080
+                scheme: HTTP
+                httpHeaders:
+                - name: Authorization
+                  value: ${AUTH_HEADER}
+              initialDelaySeconds: 100
+              timeoutSeconds: 30
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
     triggers:
       - type: ConfigChange
       - type: ImageChange

@@ -19,13 +19,12 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: nginx-jag-cdds
+  value: nginx-jag-role-registry
 
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
   required: false
-  # Below value must be changed as per gold cluster oc nameplate
-  value: ****
+  value: e97df9
 
 - name: OC_ENV
   description: The OpenShift environment, ie dev, test or prod
@@ -44,7 +43,7 @@ parameters:
 - name: ENDPOINT2
   description: The target endpoint
   required: false
-  value: jag-role-registry-oldwm
+  value: nginx-jag-role-registry-oldwm
 
 - name: DNS
   description: The application name that each component is part of
@@ -168,7 +167,6 @@ objects:
               defaultMode: 420
         containers:
           - name: ${COMPONENT_NAME}
-          # Below Immage url must be changed as per gold cluster image stream
             image: >-
               image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/${COMPONENT_NAME}:latest
             ports:
@@ -219,6 +217,8 @@ objects:
     # balance algorithm
     haproxy.router.openshift.io/balance: roundrobin
   spec:
+    # Below value must be changed as per gold cluster certificate/DNS
+    host: ${COMPONENT_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
     to:
       kind: Service
       name: ${COMPONENT_NAME}
