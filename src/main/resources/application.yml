@@ -4,7 +4,6 @@ security:
     username: ${BASIC_AUTH_USER}
 cso:
   host: ${ORDS_HOST}
-  namespace: ${CSO_NAMESPACE}
 management:
   trace:
     http:

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="e5441b56-9f21-45bc-9130-08c2d3652a6d" activeEnvironment="Default" name="role-registry" resourceRoot="${projectDir}" soapui-version="5.6.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="4b71e62b-de43-4e1e-a8ed-5cadf450eab4" wsaVersion="NONE" name="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder" type="wsdl" bindingName="{http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry}RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder" soapVersion="1_1" anonymous="optional" definition="file:/C:/workspace2/jag-role-registry/src/main/resources/xsdSchemas/cso.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\workspace2\jag-role-registry\src\main\resources\xsdSchemas\cso.wsdl"><con:part><con:url>file:\C:\workspace2\jag-role-registry\src\main\resources\xsdSchemas\cso.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="RoleRegistry" targetNamespace="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapjms="http://www.w3.org/2008/07/soap/bindings/JMS/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">
+      <xsd:complexType name="getRolesForIdentifier">
+        <xsd:sequence>
+          <xsd:element name="domain" nillable="true" type="xsd:string"/>
+          <xsd:element name="application" nillable="true" type="xsd:string"/>
+          <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+          <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getRolesForIdentifierResponse">
+        <xsd:sequence>
+          <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="UserRoles">
+        <xsd:sequence>
+          <xsd:element name="domain" nillable="true" type="xsd:string"/>
+          <xsd:element name="application" nillable="true" type="xsd:string"/>
+          <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+          <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+          <xsd:element name="roles" nillable="true" type="tns:RegisteredRole" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RegisteredRole">
+        <xsd:sequence>
+          <xsd:element name="code" nillable="true" type="xsd:string"/>
+          <xsd:element name="description" nillable="true" type="xsd:string"/>
+          <xsd:element name="type" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getRolesForApplication">
+        <xsd:sequence>
+          <xsd:element name="domain" nillable="true" type="xsd:string"/>
+          <xsd:element name="application" nillable="true" type="xsd:string"/>
+          <xsd:element name="type" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="getRolesForApplicationResponse">
+        <xsd:sequence>
+          <xsd:element name="roleResults" nillable="true" type="tns:RoleResults"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RoleResults">
+        <xsd:sequence>
+          <xsd:element name="domain" nillable="true" type="xsd:string"/>
+          <xsd:element name="application" nillable="true" type="xsd:string"/>
+          <xsd:element name="roles" nillable="true" type="tns:RegisteredRole" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getRolesForApplication" type="tns:getRolesForApplication"/>
+      <xsd:element name="getRolesForApplicationResponse" type="tns:getRolesForApplicationResponse"/>
+      <xsd:element name="getRolesForIdentifier" type="tns:getRolesForIdentifier"/>
+      <xsd:element name="getRolesForIdentifierResponse" type="tns:getRolesForIdentifierResponse"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="RoleRegistry_PortType_getRolesForApplicationResponse">
+    <wsdl:part name="parameters" element="tns:getRolesForApplicationResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RoleRegistry_PortType_getRolesForApplication">
+    <wsdl:part name="parameters" element="tns:getRolesForApplication"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RoleRegistry_PortType_getRolesForIdentifierResponse">
+    <wsdl:part name="parameters" element="tns:getRolesForIdentifierResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RoleRegistry_PortType_getRolesForIdentifier">
+    <wsdl:part name="parameters" element="tns:getRolesForIdentifier"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RoleRegistry_PortType">
+    <wsdl:operation name="getRolesForApplication">
+      <wsdl:input message="tns:RoleRegistry_PortType_getRolesForApplication"></wsdl:input>
+      <wsdl:output message="tns:RoleRegistry_PortType_getRolesForApplicationResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesForIdentifier">
+      <wsdl:input message="tns:RoleRegistry_PortType_getRolesForIdentifier"></wsdl:input>
+      <wsdl:output message="tns:RoleRegistry_PortType_getRolesForIdentifierResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder" type="tns:RoleRegistry_PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getRolesForApplication">
+      <soap:operation soapAction="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForApplication" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRolesForIdentifier">
+      <soap:operation soapAction="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForIdentifier" style="document"/>
+      <wsdl:input>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body parts="parameters" use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RoleRegistry">
+    <wsdl:port name="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Port" binding="tns:RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder">
+      <soap:address location="{API_HOST}"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>{API_HOST}</con:endpoint></con:endpoints><con:operation id="708fcdbc-bf64-4fa6-93ea-f88ccf79e6ea" isOneWay="false" action="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForApplication" name="getRolesForApplication" bindingOperationName="getRolesForApplication" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ceca90e8-b749-43a8-ad3d-7046763c3ef4" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rol="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <rol:getRolesForApplication>\r
+         <domain>?</domain>\r
+         <application>?</application>\r
+         <type>?</type>\r
+      </rol:getRolesForApplication>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForApplication"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2959b2f8-5e19-4fd9-8515-4659f81a40cc" isOneWay="false" action="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForIdentifier" name="getRolesForIdentifier" bindingOperationName="getRolesForIdentifier" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="367c7514-d5ce-476c-b965-fcacd276f17b" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>{API_HOST}</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rol="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <rol:getRolesForIdentifier>\r
+         <domain>?</domain>\r
+         <application>?</application>\r
+         <identifier>?</identifier>\r
+         <identifierType>?</identifierType>\r
+      </rol:getRolesForIdentifier>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForIdentifier"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="256ee86e-fdf7-40f6-9555-8b16b78ddabc" name="RoleRegistryTestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="c897351a-3a23-4182-8cb3-962ee8b6e530" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="AutomationTests" searchProperties="true"><con:settings/><con:testStep type="groovy" name="getRolesForApplication" id="b22a1be0-4ac6-449c-96ee-6bcb1283006f"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def GetRolesForApplication = testRunner.testCase.testSuite.testCases["GetRolesForApplication"].testSteps["getRolesForApplication"].getPropertyValue("Request")
+ 
+ def domain=testRunner.testCase.testSuite.testCases["GetRolesForApplication"].getPropertyValue("domain")
+ def application=testRunner.testCase.testSuite.testCases["GetRolesForApplication"].getPropertyValue("application")
+ def type=testRunner.testCase.testSuite.testCases["GetRolesForApplication"].getPropertyValue("type")
+ 
+ def xmlAdd= new XmlHolder(GetRolesForApplication)
+ xmlAdd.setNodeValue("//rol:getRolesForApplication/domain",domain)
+ xmlAdd.setNodeValue("//rol:getRolesForApplication/application",application)
+ xmlAdd.setNodeValue("//rol:getRolesForApplication/type",type)
+
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetRolesForApplication"].testSteps["getRolesForApplication"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetRolesForApplication"].testSteps["getRolesForApplication"]
+ def contextGetRolesForApplication = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetRolesForApplication)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetRolesForApplication"].testSteps["getRolesForApplication"].getPropertyValue("Response")
+def Response= new XmlHolder(getRes)
+def GetResponse= Response.getNodeValue("//domain")
+def GetResponse1= Response.getNodeValue("//application")
+def GetResponse2= Response.getNodeValue("//code")
+def GetResponse3= Response.getNodeValue("//description")
+def GetResponse4= Response.getNodeValue("//type")
+
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse3
+log.info GetResponse4
+
+assert GetResponse=="1"
+assert GetResponse1=="2"
+assert GetResponse2=="CRED"
+assert GetResponse3=="Credit Agency Client"
+assert GetResponse4=="Agency"
+
+
+
+</script></con:config></con:testStep><con:testStep type="groovy" name="getRolesForIdentifier" id="07d5ebd9-9be2-4717-92fe-9d9554fe597c"><con:settings/><con:config><script>import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+
+ def GetRolesForIdentifier = testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].testSteps["getRolesForIdentifier"].getPropertyValue("Request")
+ 
+ def domain=testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].getPropertyValue("domain")
+ def application=testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].getPropertyValue("application")
+ 
+ def xmlAdd= new XmlHolder(GetRolesForIdentifier)
+ xmlAdd.setNodeValue("//rol:getRolesForApplication/domain",domain)
+ xmlAdd.setNodeValue("//rol:getRolesForApplication/application",application)
+
+ def newxmlGet= xmlAdd.getXml();
+ //add xml detail
+ testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].testSteps["getRolesForIdentifier"].setPropertyValue("Request",newxmlGet)
+
+ def getTestStep=testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].testSteps["getRolesForIdentifier"]
+ def contextGetRolesForIdentifier = new WsdlTestRunContext(getTestStep);
+ getTestStep.run(testRunner,contextGetRolesForIdentifier)
+ //Validation -
+ def getRes=testRunner.testCase.testSuite.testCases["GetRolesForIdentifier"].testSteps["getRolesForIdentifier"].getPropertyValue("Response")
+def Response= new XmlHolder(getRes)
+def GetResponse= Response.getNodeValue("//domain")
+def GetResponse1= Response.getNodeValue("//application")
+def GetResponse2= Response.getNodeValue("//code")
+def GetResponse3= Response.getNodeValue("//description")
+def GetResponse4= Response.getNodeValue("//type")
+
+log.info GetResponse
+log.info GetResponse1
+log.info GetResponse2
+log.info GetResponse3
+log.info GetResponse4
+
+assert GetResponse=="Courts"
+assert GetResponse1=="CSO"
+assert GetResponse2=="CLRG"
+assert GetResponse3=="CSO Large Files"
+assert GetResponse4=="Client"
+
+
+
+</script></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="2371c4e2-a9bc-4db7-aa92-71f3c131c633" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetRolesForApplication" searchProperties="true"><con:settings/><con:testStep type="request" name="getRolesForApplication" id="83385beb-9d07-4627-982b-b6ba7ee2c2a2"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder</con:interface><con:operation>getRolesForApplication</con:operation><con:request name="getRolesForApplication" id="89fda0a2-8cb1-41ab-a75f-212b9204375b"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rol="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <rol:getRolesForApplication>
+         <domain>1</domain>
+         <application>2</application>
+         <type>1</type>
+      </rol:getRolesForApplication>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="6a8d8614-fbef-49bf-8942-9cbffe9ea33b"/><con:assertion type="Valid HTTP Status Codes" id="d063ed37-60af-47dd-98be-91e465e0e172" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="22f35f82-06d2-424b-b473-0fb94b0a1592" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="57f6799c-4a3d-4594-a6c8-daca10f9868b" name="Invalid HTTP Status Codes"><con:configuration><codes>401, 403, 404, 500, 503</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="3a6b33b2-e83e-424a-a855-437e0cef06d2" name="Contains"><con:configuration><token>CRED</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="d3bc230e-74dc-4276-a989-be81678853d9" name="Contains 1"><con:configuration><token>1</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="60fe6380-6f29-404f-8a52-0e7ffbaff1d9" name="Contains 2"><con:configuration><token>2</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="323851b3-3580-4f5c-b3af-83d7e4bc7ec9" name="Contains 3"><con:configuration><token>Inquiry</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="74f14a03-0807-4f16-b24d-b517110b49f1" name="Contains 4"><con:configuration><token>INQY</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="db251074-2bf3-4f47-b081-1a56577bb01b" name="Contains 5"><con:configuration><token>Agency</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="06bc0a35-8e75-49cc-b130-3b84d097f8a9" name="Contains 6"><con:configuration><token>ORAR</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="a54eed99-0cdf-4237-82f8-aec318dfef36" name="Contains 7"><con:configuration><token>Orders and Agreements</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="25aef530-759e-41b4-b897-3aafeb4d8fc9" name="Contains 8"><con:configuration><token>COAC</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="61af39f8-b8f1-4d91-9242-844b29d3a082" name="Contains 9"><con:configuration><token>Court Of Appeal Client</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>domain</con:name><con:value>1</con:value></con:property><con:property><con:name>application</con:name><con:value>2</con:value></con:property><con:property><con:name>type</con:name><con:value>1</con:value></con:property></con:properties></con:testCase><con:testCase id="e0572890-c678-46ec-95e8-75fa5836fb96" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="GetRolesForIdentifier" searchProperties="true"><con:settings/><con:testStep type="request" name="getRolesForIdentifier" id="4135826e-8af6-48e4-a480-cbd2d20669bc"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder</con:interface><con:operation>getRolesForApplication</con:operation><con:request name="getRolesForIdentifier" id="399cbe34-b6f0-4fcc-83fb-ecd5a505c9c0"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rol="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <rol:getRolesForApplication>
+            <domain>Courts</domain>
+            <application>CSO</application>
+        </rol:getRolesForApplication>
+    </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="475780c8-4eb4-4db1-b077-d7b72092fea8"/><con:assertion type="Valid HTTP Status Codes" id="5f97e8f2-931e-4315-902c-5ec8968c5675" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="Response SLA Assertion" id="b21e54cd-e1ab-4c3d-9af5-a19072be853f" name="Response SLA"><con:configuration><SLA>1000</SLA></con:configuration></con:assertion><con:assertion type="Invalid HTTP Status Codes" id="59b36717-cc2a-4a36-a692-0bf30034f8cd" name="Invalid HTTP Status Codes"><con:configuration><codes>401, 403, 404, 500, 503</codes></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f1fa984b-53bf-4c6b-8a19-87e11a75df2f" name="Contains"><con:configuration><token>LSB</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="ac56d3c4-c116-4757-8cab-15e2f810e131" name="Contains 1"><con:configuration><token>Legal Service Branch</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f6b18101-8e14-4bf9-aba8-510addd84b71" name="Contains 2"><con:configuration><token>Client</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="a0e695f5-2ada-48ee-ba43-2d449530eed4" name="Contains 3"><con:configuration><token>LRGA</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="ab2adca0-ad72-4b05-aa2c-80b89e853614" name="Contains 4"><con:configuration><token>CSO Large Files - Court Of Appeal</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="018feb07-7af4-4588-9f3a-2beba636bda7" name="Contains 5"><con:configuration><token>CAEF</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="32077516-f6a9-4d63-9556-b9323690876a" name="Contains 6"><con:configuration><token>Court Of Appeal E-Filing</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="f92021b9-548d-4509-8e70-ac0f09e7bf61" name="Contains 7"><con:configuration><token>JIRL</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="a9554e6c-34f3-42b2-9625-99f1e7b87cf1" name="Contains 8"><con:configuration><token>Justice Interim Release List Access</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="715de8c7-e61f-4608-ad5b-c81e2c004b9b" name="Contains 9"><con:configuration><token>FILE</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="b5d9d8a1-231f-4573-84d1-839d32ddc3f6" name="Contains 10"><con:configuration><token>CSO E-Filing</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="6181a747-fb50-4d0d-a5e3-2884336b4db2" name="Contains 11"><con:configuration><token>VIND</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="24d8a120-3b56-48d6-89b6-f1d7cae01205" name="Contains 12"><con:configuration><token>CSO Personal Client</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="ab3fc61f-c9b7-4520-a8cb-a26f28d1e70d" name="Contains 13"><con:configuration><token>AADM</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="b428803c-a635-4faa-9a8e-74c666f85e76" name="Contains 14"><con:configuration><token>CSO Account Administrator</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="110d1682-d252-4af3-84d9-93f1c7d9862e" name="Contains 15"><con:configuration><token>FADM</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:assertion type="Simple Contains" id="6016fa64-c2f4-403d-bbf0-fddf023573c3" name="Contains 16"><con:configuration><token>CSO Financial Administrator</token><ignoreCase>false</ignoreCase><useRegEx>false</useRegEx></con:configuration></con:assertion><con:credentials><con:username>{AUTHENTICATION_USERNAME}</con:username><con:password>{AUTHENTICATION_PASSWORD}</con:password><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties><con:property><con:name>domain</con:name><con:value>Courts</con:value></con:property><con:property><con:name>application</con:name><con:value>CSO</con:value></con:property></con:properties></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
