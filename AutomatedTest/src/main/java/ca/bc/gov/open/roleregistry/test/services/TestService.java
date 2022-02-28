@@ -3,7 +3,6 @@ package ca.bc.gov.open.roleregistry.test.services;
 import com.eviware.soapui.tools.SoapUITestCaseRunner;
 import java.io.*;
 import java.util.Scanner;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.tools.zip.ZipEntry;
@@ -80,7 +79,8 @@ public class TestService {
         fos.close();
         return fOut;
     }
-    private void sanitizeErrorFiles (File[]files) throws IOException {
+
+    private void sanitizeErrorFiles(File[] files) throws IOException {
         for (File f : files) {
             String fileContent = FileUtils.readFileToString(f);
             fileContent = fileContent.replaceAll(username, "*".repeat(8));

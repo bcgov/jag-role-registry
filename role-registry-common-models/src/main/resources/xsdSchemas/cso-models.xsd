@@ -99,6 +99,24 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:element name="getRolesForIdentity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="userIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="accountIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 
+    <xsd:element name="getRolesForIdentityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
 </xsd:schema>
 
