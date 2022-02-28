@@ -2,4 +2,4 @@
 *
 
 # Allow files and directories
-!./target/cso-application.jar
+!./role-registry-application/target/cso-application.jar
