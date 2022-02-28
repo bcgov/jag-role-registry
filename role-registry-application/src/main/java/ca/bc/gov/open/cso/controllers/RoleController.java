@@ -4,6 +4,7 @@ import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.configuration.SoapConfig;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
+import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,9 @@ public class RoleController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForIdentifier")));
             var out = new GetRolesForIdentifierResponse();
             out.setUserRoles(resp.getBody());
             return out;
@@ -89,6 +92,9 @@ public class RoleController {
                             new HttpEntity<>(new HttpHeaders()),
                             RoleResults.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForApplication")));
             var out = new GetRolesForApplicationResponse();
             out.setRoleResults(resp.getBody());
             return out;
@@ -100,6 +106,42 @@ public class RoleController {
                                     "getRolesForApplication",
                                     ex.getMessage(),
                                     getRolesForApplication)));
+            throw new ORDSException();
+        }
+    }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getRolesForIdentity")
+    public GetRolesForIdentifierResponse getRolesForApplication(
+            @RequestPayload GetRolesForIdentity getRolesForIdentity)
+            throws JsonProcessingException {
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(host + "roles/identity")
+                        .queryParam("domain", getRolesForIdentity.getDomain())
+                        .queryParam("application", getRolesForIdentity.getApplication())
+                        .queryParam("userIdentifier", getRolesForIdentity.getUserIdentifier())
+                        .queryParam("accountIdentifier", getRolesForIdentity.getAccountIdentifier())
+                        .queryParam("identifierType", getRolesForIdentity.getIdentifierType());
+        try {
+            HttpEntity<UserRoles> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.GET,
+                            new HttpEntity<>(new HttpHeaders()),
+                            UserRoles.class);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForIdentity")));
+            var out = new GetRolesForIdentifierResponse();
+            out.setUserRoles(resp.getBody());
+            return out;
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "getRolesForApplication",
+                                    ex.getMessage(),
+                                    getRolesForIdentity)));
             throw new ORDSException();
         }
     }
