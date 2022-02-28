@@ -42,7 +42,8 @@ public class TestController {
         } else {
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.add("Content-Type", "application/json");
-            return new ResponseEntity<String>("{\"status\": \"All tests passed\"}", responseHeaders, HttpStatus.OK);
+            return new ResponseEntity<String>(
+                    "{\"status\": \"All tests passed\"}", responseHeaders, HttpStatus.OK);
         }
     }
 
