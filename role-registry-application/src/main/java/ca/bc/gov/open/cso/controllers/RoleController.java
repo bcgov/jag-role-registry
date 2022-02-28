@@ -4,6 +4,7 @@ import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.configuration.SoapConfig;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
+import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +56,9 @@ public class RoleController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForIdentifier")));
             var out = new GetRolesForIdentifierResponse();
             out.setUserRoles(resp.getBody());
             return out;
@@ -89,6 +92,9 @@ public class RoleController {
                             new HttpEntity<>(new HttpHeaders()),
                             RoleResults.class);
 
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForApplication")));
             var out = new GetRolesForApplicationResponse();
             out.setRoleResults(resp.getBody());
             return out;
@@ -122,7 +128,9 @@ public class RoleController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getRolesForIdentity")));
             var out = new GetRolesForIdentifierResponse();
             out.setUserRoles(resp.getBody());
             return out;
