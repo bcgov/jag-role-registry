@@ -39,7 +39,6 @@
             <artifactId>XmlSchema</artifactId>
             <version>1.4.7</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -92,8 +91,24 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.13.1</version>
         </dependency>
-
-
+        <!-- Caching -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.11.1</version>
+        </dependency>
         <!-- Splunk logging -->
         <dependency>
             <groupId>com.splunk.logging</groupId>
