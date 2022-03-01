@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.cso.controllers.HealthController;
-import ca.bc.gov.open.cso.controllers.RoleController;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -44,32 +43,32 @@ public class OrdsErrorTests {
                 ORDSException.class, () -> healthController.getHealth(new GetHealth()));
     }
 
-    @Test
-    public void getRolesForIdentifierOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(
-                ORDSException.class,
-                () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
-    }
-
-    @Test
-    public void getRolesForApplicationOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(
-                ORDSException.class,
-                () -> roleController.getRolesForApplication(new GetRolesForApplication()));
-    }
-
-    @Test
-    public void getRolesForIdentityOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
-
-        Assertions.assertThrows(
-                ORDSException.class,
-                () -> roleController.getRolesForIdentity(new GetRolesForIdentity()));
-    }
+    //    @Test
+    //    public void getRolesForIdentifierOrdsFail() {
+    //        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    //
+    //        Assertions.assertThrows(
+    //                ORDSException.class,
+    //                () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
+    //    }
+    //
+    //    @Test
+    //    public void getRolesForApplicationOrdsFail() {
+    //        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    //
+    //        Assertions.assertThrows(
+    //                ORDSException.class,
+    //                () -> roleController.getRolesForApplication(new GetRolesForApplication()));
+    //    }
+    //
+    //    @Test
+    //    public void getRolesForIdentityOrdsFail() {
+    //        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    //
+    //        Assertions.assertThrows(
+    //                ORDSException.class,
+    //                () -> roleController.getRolesForIdentity(new GetRolesForIdentity()));
+    //    }
 
     @Test
     public void securityTestFail_Then401() throws Exception {

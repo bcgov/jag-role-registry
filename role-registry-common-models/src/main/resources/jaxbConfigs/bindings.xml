@@ -10,8 +10,11 @@
         <jxb:schemaBindings>
             <jxb:package name="ca.bc.gov.open.cso"/>
         </jxb:schemaBindings>
-        <jxb:bindings>
+        <jxb:bindings xmlns:jxb="http://java.sun.com/xml/ns/jaxb" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jxb:version="2.1">
             <namespace:prefix name="ser-root"/>
+            <jxb:globalBindings>
+                <xjc:serializable uid="1"/>
+            </jxb:globalBindings>
             <!-- Additional @XmlNs prefix declarations to take effect for this schema/package -->
             <namespace:prefix name="xsi" namespaceURI="http://www.w3.org/2001/XMLSchema-instance"/>
         </jxb:bindings>
