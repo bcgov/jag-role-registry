@@ -63,6 +63,15 @@ public class OrdsErrorTests {
     }
 
     @Test
+    public void getRolesForIdentityOrdsFail() {
+        RoleController roleController = new RoleController(restTemplate, objectMapper);
+
+        Assertions.assertThrows(
+                ORDSException.class,
+                () -> roleController.getRolesForIdentity(new GetRolesForIdentity()));
+    }
+
+    @Test
     public void securityTestFail_Then401() throws Exception {
         var response =
                 mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))

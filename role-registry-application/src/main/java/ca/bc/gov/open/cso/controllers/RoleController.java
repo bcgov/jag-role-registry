@@ -111,7 +111,7 @@ public class RoleController {
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getRolesForIdentity")
-    public GetRolesForIdentifierResponse getRolesForApplication(
+    public GetRolesForIdentityResponse getRolesForIdentity(
             @RequestPayload GetRolesForIdentity getRolesForIdentity)
             throws JsonProcessingException {
         UriComponentsBuilder builder =
@@ -131,7 +131,7 @@ public class RoleController {
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog("Request Success", "getRolesForIdentity")));
-            var out = new GetRolesForIdentifierResponse();
+            var out = new GetRolesForIdentityResponse();
             out.setUserRoles(resp.getBody());
             return out;
         } catch (Exception ex) {
