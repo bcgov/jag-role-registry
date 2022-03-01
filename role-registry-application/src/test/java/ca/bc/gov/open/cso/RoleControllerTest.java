@@ -103,4 +103,44 @@ public class RoleControllerTest {
         //     Assert response is correct
         Assertions.assertNotNull(out);
     }
+
+    @Test
+    public void getRolesForIdentityTest() throws JsonProcessingException {
+        var req = new GetRolesForIdentity();
+        req.setDomain("A");
+        req.setApplication("A");
+        req.setIdentifierType("A");
+        req.setAccountIdentifier("A");
+        req.setUserIdentifier("A");
+
+        var resp = new UserRoles();
+        resp.setDomain("A");
+        resp.setApplication("A");
+        resp.setIdentifier("A");
+        resp.setIdentifierType("A");
+
+        RegisteredRole rr = new RegisteredRole();
+        rr.setCode("A");
+        rr.setDescription("A");
+        rr.setType("A");
+
+        resp.setRoles(Collections.singletonList(rr));
+
+        ResponseEntity<UserRoles> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
+
+        RoleController roleController = new RoleController(restTemplate, objectMapper);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<UserRoles>>any()))
+                .thenReturn(responseEntity);
+
+        var out = roleController.getRolesForIdentity(req);
+
+        //     Assert response is correct
+        Assertions.assertNotNull(out);
+    }
 }
