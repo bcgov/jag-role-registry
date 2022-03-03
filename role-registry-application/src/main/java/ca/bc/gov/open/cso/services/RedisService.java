@@ -148,7 +148,7 @@ public class RedisService {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
-            log.info("Fetch Success from DB: \"getRolesFoIdentity\"");
+            log.info("Fetch Success from DB: \"getRolesForIdentity\"");
             return resp.getBody();
         } catch (Exception ex) {
             var getRolesForIdentity = new GetRolesForIdentity();
