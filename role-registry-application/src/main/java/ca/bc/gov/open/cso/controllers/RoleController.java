@@ -86,6 +86,7 @@ public class RoleController {
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getRolesForIdentity")
+    @ResponsePayload
     public GetRolesForIdentityResponse getRolesForIdentity(
             @RequestPayload GetRolesForIdentity getRolesForIdentity)
             throws JsonProcessingException {
