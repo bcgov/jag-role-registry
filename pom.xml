@@ -30,6 +30,7 @@
         <module>role-registry-application</module>
         <module>AutomatedTest</module>
         <module>role-registry-common-models</module>
+        <module>comparison-tool</module>
     </modules>
 
 

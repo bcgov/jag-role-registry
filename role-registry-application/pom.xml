@@ -10,9 +10,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
-    <artifactId>jag-cso</artifactId>
+    <artifactId>jag-cso-application</artifactId>
     <version>1.0</version>
-    <name>jag-cso</name>
+    <name>jag-cso-application</name>
     <description>jag-cso</description>
     <properties>
         <default-package>ca.bc.gov.open.cso</default-package>
