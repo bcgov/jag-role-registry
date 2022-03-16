@@ -1,6 +1,5 @@
 package ca.bc.gov.open.cso.comparison;
 
-
 import ca.bc.gov.open.cso.comparison.services.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
