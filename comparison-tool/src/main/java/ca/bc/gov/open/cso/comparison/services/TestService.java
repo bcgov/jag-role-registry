@@ -60,8 +60,8 @@ public class TestService {
     public void runCompares() throws IOException {
         System.out.println("INFO: CSO Role Registry Diff testing started");
         getRolesForIdentityCompare();
-        //    getRolesForIdentifierCompare();
-        //    getRolesForApplicationCompare();
+        getRolesForIdentifierCompare();
+        getRolesForApplicationCompare();
     }
 
     private void getRolesForIdentityCompare() throws IOException {
