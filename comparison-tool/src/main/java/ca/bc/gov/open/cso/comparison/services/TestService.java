@@ -77,17 +77,18 @@ public class TestService {
         while (scanner.hasNextLine()) {
             String[] inputs = scanner.nextLine().split(",");
             request.setAccountIdentifier(inputs[0]);
-            request.setApplication(inputs[1]);
-            request.setDomain(inputs[2]);
+            request.setDomain(inputs[1]);
+            request.setApplication(inputs[2]);
             request.setUserIdentifier(inputs[3]);
             request.setIdentifierType(inputs[4]);
 
             System.out.println(
-                    "\nINFO: getRolesForIdentity with AccountIdentifier "
+                    "\nINFO: getRolesForIdentity with"
+                            + " AccountIdentifier "
                             + inputs[0]
-                            + " Application "
-                            + inputs[1]
                             + " Domain "
+                            + inputs[1]
+                            + " Application "
                             + inputs[2]
                             + " UserIdentifier "
                             + inputs[3]
@@ -97,11 +98,12 @@ public class TestService {
             if (!compare(
                     getRolesForIdentityResponse, request, new String[] {"ca.bc.gov.open.cso"})) {
                 fileOutput.println(
-                        "\nINFO: getRolesForIdentity with AccountIdentifier"
+                        "\nINFO: getRolesForIdentity with "
+                                + "AccountIdentifier"
                                 + inputs[0]
-                                + " Application "
-                                + inputs[1]
                                 + " Domain "
+                                + inputs[1]
+                                + " Application "
                                 + inputs[2]
                                 + " UserIdentifier "
                                 + inputs[3]
