@@ -1,8 +1,8 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
-  name: ${APP_NAME}
-  description: Deployment template for the JAG-ROLE-REGISTRY
+  name: ${COMPONENT_NAME}
+  description: Deployment template for the JAG-ROLE-REGISTRY-TESTS
   
 labels:
   app: ${APP_NAME}
@@ -20,41 +20,32 @@ parameters:
 - name: COMPONENT_NAME
   description: The application name that each component is part of
   required: false
-  value: jag-role-registry
+  value: jag-role-registry-tests
   
 - name: OC_NAMESPACE
   description: The OpenShift namespace prefix
   required: false
   # Below value must be changed as per gold cluster oc nameplate
-  value: e97df9
+  value: ****
   
 - name: OC_ENV
   description: The OpenShift environment, ie dev, test or prod
   required: true
 
 - name: RUNTIME
-  description: The application name that each component is part of
+  description: The run time of the application
   required: false
   value: java
 
-- name: API_NAME
-  description: The application name that each component is part of
-  required: false
-  value: jag-role-registry
-
 - name: DNS
-  description: The application name that each component is part of
+  description: The application DNS for route url
   required: false
-  # Below value must be changed as per gold cluster certificate/DNS
+  # Below value must be changed as per gold & dr cluster certificate/DNS
   value: apps.gold.devops.gov.bc.ca
-- name: AUTH_HEADER
-  description: The http Authorization header required for performing livenessProbe & readinessProbe in deployment config during container start.
-  required: true
-  value: ''
-
+  
 objects:
 
-### JAG-ROLE-REGISTRY Deployment Config ###
+### JAG-ROLE-REGISTRY-TESTS Deployment Config ###
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
@@ -86,38 +77,23 @@ objects:
             - name: BASIC_AUTH_USER
               valueFrom:
                 secretKeyRef:
-                  name: role-registry-application-secrets
+                  name: roleregistry-application-secrets
                   key: BASIC_AUTH_USER
             - name: BASIC_AUTH_PASS
               valueFrom:
                 secretKeyRef:
-                  name: role-registry-application-secrets
+                  name: roleregistry-application-secrets
                   key: BASIC_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
-                  name: role-registry-application-secrets
+                  name: roleregistry-application-secrets
                   key: SPRING_PROFILE
-            - name: SPLUNK_HTTP_URL
+            - name: API_HOST
               valueFrom:
                 secretKeyRef:
-                  name: role-registry-splunk-config
-                  key: SPLUNK_HTTP_URL
-            - name: SPLUNK_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: role-registry-splunk-config
-                  key: SPLUNK_TOKEN
-            - name: SPLUNK_INDEX
-              valueFrom:
-                secretKeyRef:
-                  name: role-registry-splunk-config
-                  key: SPLUNK_INDEX
-            - name: ORDS_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: role-registry-application-secrets
-                  key: ORDS_HOST
+                  name: roleregistry-application-secrets
+                  key: API_HOST
             resources:
               limits:
                 cpu: 500m
@@ -130,9 +106,6 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
-                httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -143,9 +116,6 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
-                httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -162,9 +132,8 @@ objects:
             kind: ImageStreamTag
             namespace: ${OC_NAMESPACE}-tools
             name: ${COMPONENT_NAME}:${OC_ENV}
-  status: {}
 
-### JAG-ROLE-REGISTRY Service ###
+### JAG-ROLE-REGISTRY-TESTS Service ###
 - apiVersion: v1
   kind: Service
   metadata:
@@ -181,19 +150,21 @@ objects:
     sessionAffinity: None
     type: ClusterIP
 
-### JAG-ROLE-REGISTRY Route ###
+### JAG-ROLE-REGISTRY-TESTS Route ###
 - apiVersion: route.openshift.io/v1
   kind: Route
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-${OC_ENV}
   annotations:
+    # router timeout
+    haproxy.router.openshift.io/timeout: 10m
     # if we do not use sticky-session, disable_cookies needs to be true
     haproxy.router.openshift.io/disable_cookies: "true"
     # balance algorithm
     haproxy.router.openshift.io/balance: roundrobin
   spec:
-    host: ${API_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
+    host: ${COMPONENT_NAME}-${OC_NAMESPACE}-${OC_ENV}.${DNS}
     to:
       kind: Service
       name: ${COMPONENT_NAME}
