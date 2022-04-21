@@ -10,5 +10,5 @@ exclude_patterns:
   - ".github/"
   - ".env"
   - ".env.template"
-  - "role-registry-application/src/test"
-  - "gitops"
+  - "role-registry-application/src/test/"
+  - "gitops/"
