@@ -113,4 +113,46 @@ public class RoleController {
         out.setUserRoles(userRoles);
         return out;
     }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "changeRolesForIdentity")
+    @ResponsePayload
+    public void changeRolesForIdentity(
+            @RequestPayload ChangeRolesForIdentity changeGetRolesForIdentity)
+            throws JsonProcessingException {
+
+        redisService.dropIdentityResponseFromCache(
+                changeGetRolesForIdentity.getDomain(),
+                changeGetRolesForIdentity.getApplication(),
+                changeGetRolesForIdentity.getUserIdentifier(),
+                changeGetRolesForIdentity.getAccountIdentifier(),
+                changeGetRolesForIdentity.getIdentifierType());
+        log.info("Dropping from the Cache Success: \"RolesForIdentity\"");
+    }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "changeRolesForApplication")
+    @ResponsePayload
+    public void changeRolesForApplication(
+            @RequestPayload ChangeRolesForApplication changeRolesForApplication)
+            throws JsonProcessingException {
+
+        redisService.dropApplicationResponseFromCache(
+                changeRolesForApplication.getDomain(),
+                changeRolesForApplication.getApplication(),
+                changeRolesForApplication.getType());
+        log.info("Dropping from the Cache Success: \"RolesForApplication\"");
+    }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "changeRolesForIdentifier")
+    @ResponsePayload
+    public void changeRolesForIdentifier(
+            @RequestPayload ChangeRolesForIdentifier changeRolesForIdentifier)
+            throws JsonProcessingException {
+
+        redisService.dropIdentifierResponseFromCache(
+                changeRolesForIdentifier.getDomain(),
+                changeRolesForIdentifier.getApplication(),
+                changeRolesForIdentifier.getIdentifier(),
+                changeRolesForIdentifier.getIdentifierType());
+        log.info("Dropping from the Cache Success: \"RolesForIdentifier\"");
+    }
 }

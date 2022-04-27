@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
@@ -167,4 +168,19 @@ public class RedisService {
             throw new ORDSException();
         }
     }
+
+    @CacheEvict(cacheNames = "IdentityCache")
+    public void dropIdentityResponseFromCache(
+            String domain,
+            String application,
+            String userIdentifier,
+            String accountIdentifier,
+            String identifierType) {}
+
+    @CacheEvict(cacheNames = "ApplicationCache")
+    public void dropApplicationResponseFromCache(String domain, String application, String type) {}
+
+    @CacheEvict(cacheNames = "IdentifierCache")
+    public void dropIdentifierResponseFromCache(
+            String domain, String application, String identifier, String identifierType) {}
 }

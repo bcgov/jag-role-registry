@@ -7,6 +7,7 @@ cso:
 redis:
   host: ${REDIS_HOST}
   port: ${REDIS_PORT}
+  ttl: ${REDIS_TTL_SEC}
   redis-auth-pass: ${REDIS_AUTH_PASS}
 management:
   endpoints:

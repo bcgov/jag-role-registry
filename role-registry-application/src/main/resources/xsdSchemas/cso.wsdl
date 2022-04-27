@@ -20,6 +20,14 @@
                     <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="changeRolesForIdentifier">
+                <xsd:sequence>
+                    <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                    <xsd:element name="application" nillable="true" type="xsd:string"/>
+                    <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+                    <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="getRolesForIdentifierResponse">
                 <xsd:sequence>
                     <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
@@ -48,6 +56,13 @@
                     <xsd:element name="type" nillable="true" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="changeRolesForApplication">
+                <xsd:sequence>
+                    <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                    <xsd:element name="application" nillable="true" type="xsd:string"/>
+                    <xsd:element name="type" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="getRolesForApplicationResponse">
                 <xsd:sequence>
                     <xsd:element name="roleResults" nillable="true" type="tns:RoleResults"/>
@@ -69,16 +84,28 @@
                     <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="changeRolesForIdentity">
+                <xsd:sequence>
+                    <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                    <xsd:element name="application" nillable="true" type="xsd:string"/>
+                    <xsd:element name="userIdentifier" nillable="true" type="xsd:string"/>
+                    <xsd:element name="accountIdentifier" nillable="true" type="xsd:string"/>
+                    <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="getRolesForIdentityResponse">
                 <xsd:sequence>
                     <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:element name="getRolesForIdentity" type="tns:getRolesForIdentity"/>
+            <xsd:element name="changeRolesForIdentity" type="tns:changeRolesForIdentity"/>
             <xsd:element name="getRolesForIdentityResponse" type="tns:getRolesForIdentityResponse"/>
             <xsd:element name="getRolesForApplication" type="tns:getRolesForApplication"/>
+            <xsd:element name="changeRolesForApplication" type="tns:changeRolesForApplication"/>
             <xsd:element name="getRolesForApplicationResponse" type="tns:getRolesForApplicationResponse"/>
             <xsd:element name="getRolesForIdentifier" type="tns:getRolesForIdentifier"/>
+            <xsd:element name="changeRolesForIdentifier" type="tns:changeRolesForIdentifier"/>
             <xsd:element name="getRolesForIdentifierResponse" type="tns:getRolesForIdentifierResponse"/>
         </xsd:schema>
     </wsdl:types>

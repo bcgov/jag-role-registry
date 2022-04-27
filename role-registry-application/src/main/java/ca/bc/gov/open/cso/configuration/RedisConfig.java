@@ -32,6 +32,9 @@ public class RedisConfig {
     @Value("${redis.redis-auth-pass}")
     private String password;
 
+    @Value("${redis.ttl}")
+    private String ttl;
+
     private final ObjectMapper objectMapper;
 
     @Autowired
@@ -72,19 +75,19 @@ public class RedisConfig {
             Map<String, RedisCacheConfiguration> configurationMap = new HashMap<>();
             RedisCacheConfiguration applicationConfiguration =
                     RedisCacheConfiguration.defaultCacheConfig()
-                            .entryTtl(Duration.ofSeconds(120))
+                            .entryTtl(Duration.ofSeconds(Integer.parseInt(ttl)))
                             .serializeValuesWith(
                                     RedisSerializationContext.SerializationPair.fromSerializer(
                                             roleResultsSerializer));
             RedisCacheConfiguration identityConfiguration =
                     RedisCacheConfiguration.defaultCacheConfig()
-                            .entryTtl(Duration.ofSeconds(120))
+                            .entryTtl(Duration.ofSeconds(Integer.parseInt(ttl)))
                             .serializeValuesWith(
                                     RedisSerializationContext.SerializationPair.fromSerializer(
                                             userRolesSerializer));
             RedisCacheConfiguration identifierConfiguration =
                     RedisCacheConfiguration.defaultCacheConfig()
-                            .entryTtl(Duration.ofSeconds(120))
+                            .entryTtl(Duration.ofSeconds(Integer.parseInt(ttl)))
                             .serializeValuesWith(
                                     RedisSerializationContext.SerializationPair.fromSerializer(
                                             userRolesSerializer));
