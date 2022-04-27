@@ -24,16 +24,16 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 @Configuration
 public class RedisConfig {
     @Value("${redis.host}")
-    private String host;
+    private String host = "";
 
     @Value("${redis.port}")
-    private String port;
+    private String port = "8080";
 
     @Value("${redis.redis-auth-pass}")
-    private String password;
+    private String password = "";
 
     @Value("${redis.ttl}")
-    private String ttl;
+    private String ttl = "60";
 
     private final ObjectMapper objectMapper;
 
