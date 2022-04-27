@@ -1,0 +1,146 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: ${COMPONENT_NAME}
+  description: Deployment template for the Redis
+  
+labels:
+  app: ${COMPONENT_NAME}
+  app.kubernetes.io/name: ${COMPONENT_NAME}
+  app.openshift.io/runtime: ${RUNTIME}
+
+parameters:
+
+- name: COMPONENT_NAME
+  description: The application name
+  required: false
+  value: redis
+  
+- name: OC_NAMESPACE
+  description: The OpenShift namespace prefix
+  required: false
+  # change the OC_Namespace value as per the cluster being used.
+  value: e97df9
+  
+- name: OC_ENV
+  description: The OpenShift environment, ie dev, test or prod
+  required: true
+
+- name: RUNTIME
+  description: Runtime of the application
+  required: false
+  value: redis
+
+objects:
+
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    annotations:
+      template.alpha.openshift.io/wait-for-ready: 'true'
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    labels:
+      template: redis-persistent-template
+  spec:
+    strategy:
+      type: Recreate
+      recreateParams:
+        timeoutSeconds: 600
+      resources: {}
+      activeDeadlineSeconds: 21600
+    triggers:
+      - type: ImageChange
+        imageChangeParams:
+          automatic: true
+          containerNames:
+            - ${COMPONENT_NAME}
+          from:
+            kind: ImageStreamTag
+            namespace: ${OC_NAMESPACE}-tools
+            name: '${COMPONENT_NAME}:5-el8'
+      - type: ConfigChange
+    replicas: 1
+    revisionHistoryLimit: 10
+    test: false
+    selector:
+      name: ${COMPONENT_NAME}
+    template:
+      metadata:
+        creationTimestamp: null
+        labels:
+          name: ${COMPONENT_NAME}
+      spec:
+        volumes:
+          - name: redis-data
+            persistentVolumeClaim:
+              claimName: ${COMPONENT_NAME}
+        containers:
+          - resources:
+              limits:
+                memory: 512Mi
+            readinessProbe:
+              exec:
+                command:
+                  - /bin/sh
+                  - '-i'
+                  - '-c'
+                  - >-
+                    test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" ==
+                    "PONG"
+              initialDelaySeconds: 5
+              timeoutSeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            terminationMessagePath: /dev/termination-log
+            name: ${COMPONENT_NAME}
+            livenessProbe:
+              tcpSocket:
+                port: 6379
+              initialDelaySeconds: 30
+              timeoutSeconds: 1
+              periodSeconds: 10
+              successThreshold: 1
+              failureThreshold: 3
+            env:
+              - name: REDIS_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                    name: ${COMPONENT_NAME}
+                    key: database-password
+            securityContext:
+              capabilities: {}
+              privileged: false
+            ports:
+              - containerPort: 6379
+                protocol: TCP
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - name: ${COMPONENT_NAME}-data
+                mountPath: /var/lib/redis/data
+            terminationMessagePolicy: File
+            image: >-
+              image-registry.openshift-image-registry.svc:5000/${OC_NAMESPACE}-tools/${COMPONENT_NAME}:5-el8
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
+
+### Redis Service ###
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+  spec:
+    ports:
+      - name: redis
+        protocol: TCP
+        port: 6379
+        targetPort: 6379
+    selector:
+      name: ${COMPONENT_NAME}
+    sessionAffinity: None
+    type: ClusterIP

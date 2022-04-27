@@ -51,7 +51,7 @@ parameters:
   description: The http Authorization header required for performing livenessProbe & readinessProbe in deployment config during container start.
   required: true
   value: ''
-  
+
 objects:
 
 ### JAG-ROLE-REGISTRY Deployment Config ###
@@ -60,6 +60,8 @@ objects:
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-${OC_ENV}
+    annotations:
+      app.openshift.io/connects-to: redis
       
   spec:
     completionDeadlineSeconds: 1200
