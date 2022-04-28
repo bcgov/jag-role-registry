@@ -33,6 +33,24 @@ parameters:
 
 objects:
 
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: ${COMPONENT_NAME}
+    namespace: ${OC_NAMESPACE}-${OC_ENV}
+    finalizers:
+      - kubernetes.io/pvc-protection
+    labels:
+      template: redis-persistent-template
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: netapp-file-standard
+    volumeMode: Filesystem
+
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
   metadata:
