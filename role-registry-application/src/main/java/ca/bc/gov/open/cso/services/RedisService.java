@@ -17,8 +17,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import redis.clients.jedis.Jedis;
 
-@Service
+@Service("redisService")
 @Slf4j
 public class RedisService {
     private RestTemplate restTemplate;
@@ -39,7 +40,7 @@ public class RedisService {
         return null;
     }
 
-    @CachePut(cacheNames = "IdentifierCache")
+    @CachePut(cacheNames = "IdentifierCache", unless = "!@redisService.isConnected()")
     public UserRoles fetchIdentifierResponseFromDB(
             String domain, String application, String identifier, String identifierType)
             throws JsonProcessingException {
@@ -183,4 +184,17 @@ public class RedisService {
     @CacheEvict(cacheNames = "IdentifierCache")
     public void dropIdentifierResponseFromCache(
             String domain, String application, String identifier, String identifierType) {}
+
+    public boolean isConnected() {
+        try {
+            Jedis jedis =
+                    new Jedis(
+                            System.getenv("REDIS_HOST"),
+                            Integer.parseInt(System.getenv("REDIS_PORT")),
+                            true);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }

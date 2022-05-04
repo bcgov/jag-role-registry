@@ -38,14 +38,8 @@ public class RoleController {
     public GetRolesForIdentifierResponse getRolesForIdentifier(
             @RequestPayload GetRolesForIdentifier getRolesForIdentifier)
             throws JsonProcessingException {
-        UserRoles userRoles =
-                redisService.fetchIdentifierResponseFromCache(
-                        getRolesForIdentifier.getDomain(),
-                        getRolesForIdentifier.getApplication(),
-                        getRolesForIdentifier.getIdentifier(),
-                        getRolesForIdentifier.getIdentifierType());
-
-        if (userRoles == null) {
+        UserRoles userRoles = null;
+        if (!redisService.isConnected()) {
             userRoles =
                     redisService.fetchIdentifierResponseFromDB(
                             getRolesForIdentifier.getDomain(),
@@ -53,7 +47,23 @@ public class RoleController {
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
+            userRoles =
+                    redisService.fetchIdentifierResponseFromCache(
+                            getRolesForIdentifier.getDomain(),
+                            getRolesForIdentifier.getApplication(),
+                            getRolesForIdentifier.getIdentifier(),
+                            getRolesForIdentifier.getIdentifierType());
+
+            if (userRoles == null) {
+                userRoles =
+                        redisService.fetchIdentifierResponseFromDB(
+                                getRolesForIdentifier.getDomain(),
+                                getRolesForIdentifier.getApplication(),
+                                getRolesForIdentifier.getIdentifier(),
+                                getRolesForIdentifier.getIdentifierType());
+            } else {
+                log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
+            }
         }
         var out = new GetRolesForIdentifierResponse();
         out.setUserRoles(userRoles);
