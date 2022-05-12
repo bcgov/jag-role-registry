@@ -2,12 +2,15 @@ package ca.bc.gov.open.cso.controllers;
 
 import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.configuration.SoapConfig;
+import ca.bc.gov.open.cso.exceptions.ORDSException;
+import ca.bc.gov.open.cso.models.OrdsErrorLog;
 import ca.bc.gov.open.cso.services.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -38,12 +41,28 @@ public class RoleController {
     public GetRolesForIdentifierResponse getRolesForIdentifier(
             @RequestPayload GetRolesForIdentifier getRolesForIdentifier)
             throws JsonProcessingException {
-        UserRoles userRoles =
-                redisService.fetchIdentifierResponseFromCache(
-                        getRolesForIdentifier.getDomain(),
-                        getRolesForIdentifier.getApplication(),
-                        getRolesForIdentifier.getIdentifier(),
-                        getRolesForIdentifier.getIdentifierType());
+        UserRoles userRoles = null;
+        try {
+            userRoles =
+                    redisService.fetchIdentifierResponseFromCache(
+                            getRolesForIdentifier.getDomain(),
+                            getRolesForIdentifier.getApplication(),
+                            getRolesForIdentifier.getIdentifier(),
+                            getRolesForIdentifier.getIdentifierType());
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "getRolesForIdentifier",
+                                    ex.getMessage(),
+                                    getRolesForIdentifier)));
+            throw new ORDSException();
+        }
 
         if (userRoles == null) {
             userRoles =
@@ -65,11 +84,27 @@ public class RoleController {
     public GetRolesForApplicationResponse getRolesForApplication(
             @RequestPayload GetRolesForApplication getRolesForApplication)
             throws JsonProcessingException {
-        RoleResults roleResults =
-                redisService.fetchApplicationResponseFromCache(
-                        getRolesForApplication.getDomain(),
-                        getRolesForApplication.getApplication(),
-                        getRolesForApplication.getType());
+        RoleResults roleResults = null;
+        try {
+            roleResults =
+                    redisService.fetchApplicationResponseFromCache(
+                            getRolesForApplication.getDomain(),
+                            getRolesForApplication.getApplication(),
+                            getRolesForApplication.getType());
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "getRolesForApplication",
+                                    ex.getMessage(),
+                                    getRolesForApplication)));
+            throw new ORDSException();
+        }
 
         if (roleResults == null) {
             roleResults =
@@ -90,13 +125,29 @@ public class RoleController {
     public GetRolesForIdentityResponse getRolesForIdentity(
             @RequestPayload GetRolesForIdentity getRolesForIdentity)
             throws JsonProcessingException {
-        UserRoles userRoles =
-                redisService.fetchIdentityResponseFromCache(
-                        getRolesForIdentity.getDomain(),
-                        getRolesForIdentity.getApplication(),
-                        getRolesForIdentity.getUserIdentifier(),
-                        getRolesForIdentity.getAccountIdentifier(),
-                        getRolesForIdentity.getIdentifierType());
+        UserRoles userRoles = null;
+        try {
+            userRoles =
+                    redisService.fetchIdentityResponseFromCache(
+                            getRolesForIdentity.getDomain(),
+                            getRolesForIdentity.getApplication(),
+                            getRolesForIdentity.getUserIdentifier(),
+                            getRolesForIdentity.getAccountIdentifier(),
+                            getRolesForIdentity.getIdentifierType());
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "getRolesForIdentity",
+                                    ex.getMessage(),
+                                    getRolesForIdentity)));
+            throw new ORDSException();
+        }
 
         if (userRoles == null) {
             userRoles =
@@ -119,14 +170,28 @@ public class RoleController {
     public void changeRolesForIdentity(
             @RequestPayload ChangeRolesForIdentity changeGetRolesForIdentity)
             throws JsonProcessingException {
-
-        redisService.dropIdentityResponseFromCache(
-                changeGetRolesForIdentity.getDomain(),
-                changeGetRolesForIdentity.getApplication(),
-                changeGetRolesForIdentity.getUserIdentifier(),
-                changeGetRolesForIdentity.getAccountIdentifier(),
-                changeGetRolesForIdentity.getIdentifierType());
-        log.info("Dropping from the Cache Success: \"RolesForIdentity\"");
+        try {
+            redisService.dropIdentityResponseFromCache(
+                    changeGetRolesForIdentity.getDomain(),
+                    changeGetRolesForIdentity.getApplication(),
+                    changeGetRolesForIdentity.getUserIdentifier(),
+                    changeGetRolesForIdentity.getAccountIdentifier(),
+                    changeGetRolesForIdentity.getIdentifierType());
+            log.info("Dropping from the Cache Success: \"RolesForIdentity\"");
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "changeGetRolesForIdentity",
+                                    ex.getMessage(),
+                                    changeGetRolesForIdentity)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "changeRolesForApplication")
@@ -134,12 +199,26 @@ public class RoleController {
     public void changeRolesForApplication(
             @RequestPayload ChangeRolesForApplication changeRolesForApplication)
             throws JsonProcessingException {
-
-        redisService.dropApplicationResponseFromCache(
-                changeRolesForApplication.getDomain(),
-                changeRolesForApplication.getApplication(),
-                changeRolesForApplication.getType());
-        log.info("Dropping from the Cache Success: \"RolesForApplication\"");
+        try {
+            redisService.dropApplicationResponseFromCache(
+                    changeRolesForApplication.getDomain(),
+                    changeRolesForApplication.getApplication(),
+                    changeRolesForApplication.getType());
+            log.info("Dropping from the Cache Success: \"RolesForApplication\"");
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "changeRolesForApplication",
+                                    ex.getMessage(),
+                                    changeRolesForApplication)));
+            throw new ORDSException();
+        }
     }
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "changeRolesForIdentifier")
@@ -147,12 +226,26 @@ public class RoleController {
     public void changeRolesForIdentifier(
             @RequestPayload ChangeRolesForIdentifier changeRolesForIdentifier)
             throws JsonProcessingException {
-
-        redisService.dropIdentifierResponseFromCache(
-                changeRolesForIdentifier.getDomain(),
-                changeRolesForIdentifier.getApplication(),
-                changeRolesForIdentifier.getIdentifier(),
-                changeRolesForIdentifier.getIdentifierType());
-        log.info("Dropping from the Cache Success: \"RolesForIdentifier\"");
+        try {
+            redisService.dropIdentifierResponseFromCache(
+                    changeRolesForIdentifier.getDomain(),
+                    changeRolesForIdentifier.getApplication(),
+                    changeRolesForIdentifier.getIdentifier(),
+                    changeRolesForIdentifier.getIdentifierType());
+            log.info("Dropping from the Cache Success: \"RolesForIdentifier\"");
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception",
+                                    "changeRolesForIdentifier",
+                                    ex.getMessage(),
+                                    changeRolesForIdentifier)));
+            throw new ORDSException();
+        }
     }
 }
