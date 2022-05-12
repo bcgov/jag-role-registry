@@ -107,15 +107,15 @@ objects:
                   name: role-registry-application-secrets
                   key: REDIS_PORT
             - name: REDIS_TTL_SEC
-                valueFrom:
-                  secretKeyRef:
-                    name: role-registry-application-secrets
-                    key: REDIS_TTL_SEC
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_TTL_SEC
             - name: REDIS_AUTH_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: role-registry-application-secrets
-                    key: REDIS_AUTH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
@@ -143,7 +143,7 @@ objects:
                   key: ORDS_HOST
             resources:
               limits:
-                cpu: 500m
+                cpu: 250m
                 memory: 512Mi
               requests:
                 cpu: 50m
