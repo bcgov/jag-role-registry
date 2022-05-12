@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.9</version>
+        <version>2.5.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
     <artifactId>jag-role-registry</artifactId>
-    <version>1.0</version>
+    <version>1.0.0</version>
     <name>jag-role-registry</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -30,7 +30,6 @@
         <module>role-registry-application</module>
         <module>AutomatedTest</module>
         <module>role-registry-common-models</module>
-        <module>comparison-tool</module>
     </modules>
 
 

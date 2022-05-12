@@ -1,15 +1,19 @@
 package ca.bc.gov.open.cso;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.cso.controllers.HealthController;
 import ca.bc.gov.open.cso.controllers.RoleController;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
+import ca.bc.gov.open.cso.services.RedisService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +33,8 @@ public class OrdsErrorTests {
 
     @Mock private RestTemplate restTemplate;
 
+    @Mock private RedisService redisService;
+
     @Test
     public void pingOrdsFail() {
         HealthController healthController = new HealthController(restTemplate, objectMapper);
@@ -45,8 +51,14 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void getRolesForIdentifierOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    public void getRolesForIdentifierOrdsFail() throws JsonProcessingException {
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
+
+        // Set up to mock ords response
+        when(redisService.fetchIdentifierResponseFromDB(
+                        Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenThrow(new ORDSException());
 
         Assertions.assertThrows(
                 ORDSException.class,
@@ -54,8 +66,14 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void getRolesForApplicationOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    public void getRolesForApplicationOrdsFail() throws JsonProcessingException {
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
+
+        // Set up to mock ords response
+        when(redisService.fetchApplicationResponseFromDB(
+                        Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenThrow(new ORDSException());
 
         Assertions.assertThrows(
                 ORDSException.class,
@@ -63,8 +81,14 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void getRolesForIdentityOrdsFail() {
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+    public void getRolesForIdentityOrdsFail() throws JsonProcessingException {
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
+
+        // Set up to mock ords response
+        when(redisService.fetchIdentityResponseFromDB(
+                        Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
+                .thenThrow(new ORDSException());
 
         Assertions.assertThrows(
                 ORDSException.class,

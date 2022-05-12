@@ -2,17 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.9</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>ca.bc.gov.open</groupId>
+        <artifactId>jag-role-registry</artifactId>
+        <version>1.0.0</version>
     </parent>
-    <groupId>ca.bc.gov.open</groupId>
-    <artifactId>jag-cso-application</artifactId>
-    <version>1.0</version>
-    <name>jag-cso-application</name>
+
+    <artifactId>jag-cso</artifactId>
+    <version>1.0.0</version>
+    <name>jag-cso</name>
     <description>jag-cso</description>
     <properties>
         <default-package>ca.bc.gov.open.cso</default-package>
@@ -92,8 +90,24 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.13.1</version>
         </dependency>
-
-
+        <!-- Caching -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.11.1</version>
+        </dependency>
         <!-- Splunk logging -->
         <dependency>
             <groupId>com.splunk.logging</groupId>
@@ -194,7 +208,7 @@
         <dependency>
             <groupId>ca.bc.gov.open</groupId>
             <artifactId>role-registry-common-models</artifactId>
-            <version>1.0</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

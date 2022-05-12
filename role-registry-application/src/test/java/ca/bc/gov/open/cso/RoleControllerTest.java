@@ -3,6 +3,7 @@ package ca.bc.gov.open.cso;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.cso.controllers.RoleController;
+import ca.bc.gov.open.cso.services.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
@@ -24,9 +25,11 @@ import org.springframework.web.client.RestTemplate;
 public class RoleControllerTest {
     private RoleController roleController;
 
-    @Mock private RestTemplate restTemplate;
+    @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Autowired private ObjectMapper objectMapper;
+
+    @Mock private RedisService redisService;
 
     @Autowired private MockMvc mockMvc;
 
@@ -53,7 +56,8 @@ public class RoleControllerTest {
 
         ResponseEntity<UserRoles> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
 
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
@@ -89,7 +93,8 @@ public class RoleControllerTest {
 
         ResponseEntity<RoleResults> responseEntity =
                 new ResponseEntity<>(roleResults, HttpStatus.OK);
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
@@ -128,7 +133,8 @@ public class RoleControllerTest {
 
         ResponseEntity<UserRoles> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
 
-        RoleController roleController = new RoleController(restTemplate, objectMapper);
+        RoleController roleController =
+                new RoleController(restTemplate, objectMapper, redisService);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
