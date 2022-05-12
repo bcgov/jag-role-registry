@@ -45,6 +45,7 @@ parameters:
 - name: DNS
   description: The application name that each component is part of
   required: false
+
   # Below value must be changed as per gold cluster certificate/DNS
   value: apps.gold.devops.gov.bc.ca
 - name: AUTH_HEADER
@@ -93,6 +94,26 @@ objects:
                 secretKeyRef:
                   name: role-registry-application-secrets
                   key: BASIC_AUTH_PASS
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_PORT
+            - name: REDIS_TTL_SEC
+                valueFrom:
+                  secretKeyRef:
+                    name: role-registry-application-secrets
+                    key: REDIS_TTL_SEC
+            - name: REDIS_AUTH_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: role-registry-application-secrets
+                    key: REDIS_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
@@ -131,8 +152,8 @@ objects:
                 port: 8080
                 scheme: HTTP
                 httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
+                  - name: Authorization
+                    value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -144,8 +165,8 @@ objects:
                 port: 8080
                 scheme: HTTP
                 httpHeaders:
-                - name: Authorization
-                  value: ${AUTH_HEADER}
+                  - name: Authorization
+                    value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
