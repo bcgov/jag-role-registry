@@ -51,6 +51,11 @@ parameters:
   # Below value must be changed as per gold cluster certificate/DNS
   value: apps.gold.devops.gov.bc.ca
 
+- name: AUTH_HEADER
+  description: The http Authorization header required for performing health check.
+  required: true
+  value: ''
+
 objects:
 
 - kind: ConfigMap
@@ -68,6 +73,23 @@ objects:
 
       location = /api {
         return 302 /api/actuator/health;
+      }
+
+      location /healthcheck { 
+        client_max_body_size 100m;
+        proxy_read_timeout 240s;
+        proxy_send_timeout 80s;
+        proxy_redirect off;
+        port_in_redirect off;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Host $server_name;
+        proxy_set_header Authorization '${AUTH_HEADER}';
+        proxy_pass_request_headers on;
+        proxy_pass http://healthcheck/actuator/health;
       }
 
       location /api/actuator/health {
@@ -113,6 +135,11 @@ objects:
         server jag-role-registry;
         # Tured off for now
         # server nginx-jag-role-registry-oldwm;
+      }
+
+      upstream healthcheck {
+        server jag-coa;
+        server nginx-jag-coa-oldwm;
       }
 
 - kind: DeploymentConfig
