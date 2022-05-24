@@ -41,7 +41,7 @@ objects:
     finalizers:
       - kubernetes.io/pvc-protection
     labels:
-      template: redis-persistent-template
+      template: redis-ephemeral-template
   spec:
     accessModes:
       - ReadWriteOnce
@@ -91,8 +91,7 @@ objects:
       spec:
         volumes:
           - name: redis-data
-            persistentVolumeClaim:
-              claimName: ${COMPONENT_NAME}
+            emptyDir: {}
         containers:
           - resources:
               limits:
