@@ -4,7 +4,7 @@
     <!-- STDOUT appender -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%-20(%d{HH:mm:ss.SSS} [%thread]) %-50(%-5level %logger:) %msg%n</pattern>
+            <pattern>%-20(%d [%thread]) %-50(%-5level %logger:) %msg%n</pattern>
         </encoder>
 
         <!-- Show debug in stdout -->
@@ -18,8 +18,8 @@
         <url>${SPLUNK_HTTP_URL}</url>
         <token>${SPLUNK_TOKEN}</token>
         <index>${SPLUNK_INDEX}</index>
-        <source>cdds-application</source>
-        <sourcetype>cdds-logs</sourcetype>
+        <source>cso-application</source>
+        <sourcetype>cso-logs</sourcetype>
         <disableCertificateValidation>true</disableCertificateValidation>
         <batch_size_count>1</batch_size_count>
         <connectTimeout>5000</connectTimeout>
