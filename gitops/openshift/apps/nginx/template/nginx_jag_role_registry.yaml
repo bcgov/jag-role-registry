@@ -46,14 +46,22 @@ parameters:
   value: nginx-jag-role-registry-oldwm
 
 - name: DNS
-  description: The application name that each component is part of
-  required: false
-  # Below value must be changed as per gold cluster certificate/DNS
-  value: apps.gold.devops.gov.bc.ca
-
-- name: AUTH_HEADER
-  description: The http Authorization header required for performing health check.
+  description: The nginx router url
   required: true
+
+- name: SSL_Certificate
+  description: SSL application certificate
+  required: false
+  value: ''
+
+- name: SSL_PrivateKey
+  description: Private key for the SSL application certificate
+  required: false
+  value: ''
+
+- name: CA_CertificateChain
+  description: CA certificate chain for the SSL application certificate
+  required: false
   value: ''
 
 objects:
@@ -75,22 +83,11 @@ objects:
         return 302 /api/actuator/health;
       }
 
-      location /healthcheck { 
-        client_max_body_size 100m;
-        proxy_read_timeout 240s;
-        proxy_send_timeout 80s;
-        proxy_redirect off;
-        port_in_redirect off;
-        proxy_http_version 1.1;
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Host $server_name;
-        proxy_set_header Authorization '${AUTH_HEADER}';
-        proxy_pass_request_headers on;
-        proxy_pass http://healthcheck/actuator/health;
-      }
+      location /healthcheck {
+          default_type application/json;
+          return 200 '{"status":"UP","groups":["liveness","readiness"]}';
+          access_log off;
+        }
 
       location /api/actuator/health {
         client_max_body_size 100m;
@@ -135,11 +132,6 @@ objects:
         server jag-role-registry;
         # Tured off for now
         # server nginx-jag-role-registry-oldwm;
-      }
-
-      upstream healthcheck {
-        server jag-coa;
-        server nginx-jag-coa-oldwm;
       }
 
 - kind: DeploymentConfig
