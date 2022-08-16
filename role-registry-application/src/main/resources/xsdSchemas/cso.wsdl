@@ -28,6 +28,10 @@
                     <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="clearCache">
+                <xsd:sequence>
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="getRolesForIdentifierResponse">
                 <xsd:sequence>
                     <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
@@ -106,6 +110,7 @@
             <xsd:element name="getRolesForApplicationResponse" type="tns:getRolesForApplicationResponse"/>
             <xsd:element name="getRolesForIdentifier" type="tns:getRolesForIdentifier"/>
             <xsd:element name="changeRolesForIdentifier" type="tns:changeRolesForIdentifier"/>
+            <xsd:element name="clearCache" type="tns:clearCache"/>
             <xsd:element name="getRolesForIdentifierResponse" type="tns:getRolesForIdentifierResponse"/>
         </xsd:schema>
     </wsdl:types>
