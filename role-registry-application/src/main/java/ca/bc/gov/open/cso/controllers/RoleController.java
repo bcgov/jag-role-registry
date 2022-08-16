@@ -264,7 +264,7 @@ public class RoleController {
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
                                     "Redis Exception",
-                                    "changeRolesForAll",
+                                    "clearCache",
                                     ex.getMessage(),
                                     null)));
             throw new ORDSException();
