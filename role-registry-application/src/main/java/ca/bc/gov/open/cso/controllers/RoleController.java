@@ -263,10 +263,7 @@ public class RoleController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Redis Exception",
-                                    "clearCache",
-                                    ex.getMessage(),
-                                    null)));
+                                    "Redis Exception", "clearCache", ex.getMessage(), null)));
             throw new ORDSException();
         }
     }
