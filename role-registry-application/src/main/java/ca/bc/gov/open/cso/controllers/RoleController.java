@@ -253,7 +253,10 @@ public class RoleController {
     @ResponsePayload
     public void clearCache() throws JsonProcessingException {
         try {
-            redisService.evictAllCaches();
+            redisService.clearIdentifierResponseFromCache();
+            redisService.clearApplicationResponseFromCache();
+            redisService.clearIdentifierResponseFromCache();
+
             log.info("Dropping All Cache Successfully");
         } catch (RedisConnectionFailureException ex) {
             // Commonly caused by redis password error

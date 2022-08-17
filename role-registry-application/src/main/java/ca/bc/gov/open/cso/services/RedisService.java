@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,17 +23,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class RedisService {
     private RestTemplate restTemplate;
     private ObjectMapper objectMapper;
-    private CacheManager cacheManager;
 
     @Value("${cso.host}")
     private String cso_host;
 
     @Autowired
-    public RedisService(
-            RestTemplate restTemplate, ObjectMapper objectMapper, CacheManager cacheManager) {
+    public RedisService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
-        this.cacheManager = cacheManager;
     }
 
     @Cacheable(cacheNames = "IdentifierCache", unless = "#result == null")
@@ -196,10 +192,4 @@ public class RedisService {
 
     @CacheEvict(value = "IdentifierCache", allEntries = true)
     public void clearIdentifierResponseFromCache() {}
-
-    public void evictAllCaches() {
-        clearIdentityResponseFromCache();
-        clearApplicationResponseFromCache();
-        clearIdentifierResponseFromCache();
-    }
 }
