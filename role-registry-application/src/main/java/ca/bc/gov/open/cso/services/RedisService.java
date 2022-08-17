@@ -183,4 +183,13 @@ public class RedisService {
     @CacheEvict(cacheNames = "IdentifierCache")
     public void dropIdentifierResponseFromCache(
             String domain, String application, String identifier, String identifierType) {}
+
+    @CacheEvict(value = "IdentityCache", allEntries = true)
+    public void clearIdentityResponseFromCache() {}
+
+    @CacheEvict(value = "ApplicationCache", allEntries = true)
+    public void clearApplicationResponseFromCache() {}
+
+    @CacheEvict(value = "IdentifierCache", allEntries = true)
+    public void clearIdentifierResponseFromCache() {}
 }

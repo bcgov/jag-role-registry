@@ -248,4 +248,26 @@ public class RoleController {
             throw new ORDSException();
         }
     }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "clearCache")
+    @ResponsePayload
+    public void clearCache() throws JsonProcessingException {
+        try {
+            redisService.clearIdentifierResponseFromCache();
+            redisService.clearApplicationResponseFromCache();
+            redisService.clearIdentifierResponseFromCache();
+
+            log.info("Dropping All Cache Successfully");
+        } catch (RedisConnectionFailureException ex) {
+            // Commonly caused by redis password error
+            log.error("Redis Error");
+            throw new ORDSException();
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Redis Exception", "clearCache", ex.getMessage(), null)));
+            throw new ORDSException();
+        }
+    }
 }
