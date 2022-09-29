@@ -141,6 +141,11 @@ objects:
                 secretKeyRef:
                   name: role-registry-application-secrets
                   key: ORDS_HOST
+            - name: CACHING
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: CACHING
             resources:
               limits:
                 cpu: 200m
