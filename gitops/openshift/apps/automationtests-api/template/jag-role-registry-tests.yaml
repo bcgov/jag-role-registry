@@ -77,22 +77,22 @@ objects:
             - name: BASIC_AUTH_USER
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: BASIC_AUTH_USER
             - name: BASIC_AUTH_PASS
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: BASIC_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: SPRING_PROFILE
             - name: API_HOST
               valueFrom:
                 secretKeyRef:
-                  name: roleregistry-application-secrets
+                  name: role-registry-application-secrets
                   key: API_HOST
             resources:
               limits:
@@ -106,6 +106,9 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
+                httpHeaders:
+                  - name: Authorization
+                    value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
@@ -116,6 +119,9 @@ objects:
                 path: "/actuator/health"
                 port: 8080
                 scheme: HTTP
+                httpHeaders:
+                  - name: Authorization
+                    value: ${AUTH_HEADER}
               initialDelaySeconds: 100
               timeoutSeconds: 30
               periodSeconds: 10
