@@ -255,7 +255,7 @@ public class RoleController {
         try {
             redisService.clearIdentifierResponseFromCache();
             redisService.clearApplicationResponseFromCache();
-            redisService.clearIdentifierResponseFromCache();
+            redisService.clearIdentityResponseFromCache();
 
             log.info("Dropping All Cache Successfully");
         } catch (RedisConnectionFailureException ex) {
