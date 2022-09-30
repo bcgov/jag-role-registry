@@ -27,6 +27,9 @@ public class RedisService {
     @Value("${cso.host}")
     private String cso_host;
 
+    @Value("${cso.caching}")
+    private String caching = "on";
+
     @Autowired
     public RedisService(RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
@@ -36,13 +39,23 @@ public class RedisService {
     @Cacheable(cacheNames = "IdentifierCache", unless = "#result == null")
     public UserRoles fetchIdentifierResponseFromCache(
             String domain, String application, String identifier, String identifierType) {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         return null;
     }
 
-    @CachePut(cacheNames = "IdentifierCache")
+    @CachePut(cacheNames = "IdentifierCache", unless = "#result == null")
     public UserRoles fetchIdentifierResponseFromDB(
             String domain, String application, String identifier, String identifierType)
             throws JsonProcessingException {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(cso_host + "roles/identifier")
                         .queryParam("domain", domain)
@@ -79,12 +92,22 @@ public class RedisService {
     @Cacheable(cacheNames = "ApplicationCache", unless = "#result == null")
     public RoleResults fetchApplicationResponseFromCache(
             String domain, String applicationNm, String type) {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         return null;
     }
 
-    @CachePut(cacheNames = "ApplicationCache")
+    @CachePut(cacheNames = "ApplicationCache", unless = "#result == null")
     public RoleResults fetchApplicationResponseFromDB(
             String domain, String application, String type) throws JsonProcessingException {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(cso_host + "roles/application")
                         .queryParam("domain", domain)
@@ -123,10 +146,15 @@ public class RedisService {
             String userIdentifier,
             String accountIdentifier,
             String identifierType) {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         return null;
     }
 
-    @CachePut(cacheNames = "IdentityCache")
+    @CachePut(cacheNames = "IdentityCache", unless = "#result == null")
     public UserRoles fetchIdentityResponseFromDB(
             String domain,
             String application,
@@ -134,6 +162,11 @@ public class RedisService {
             String accountIdentifier,
             String identifierType)
             throws JsonProcessingException {
+
+        if (!caching.equals("on")) {
+            return null;
+        }
+
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(cso_host + "roles/identity")
                         .queryParam("domain", domain)
