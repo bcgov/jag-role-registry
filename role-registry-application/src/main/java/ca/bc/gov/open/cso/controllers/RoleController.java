@@ -21,9 +21,6 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 @Slf4j
 public class RoleController {
 
-    @Value("${cso.caching}")
-    private String caching = "on";
-
     @Value("${cso.host}")
     private String host = "https://127.0.0.1/";
 

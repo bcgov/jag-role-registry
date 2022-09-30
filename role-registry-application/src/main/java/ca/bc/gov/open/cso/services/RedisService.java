@@ -28,7 +28,7 @@ public class RedisService {
     private String cso_host;
 
     @Value("${cso.caching}")
-    private String caching = "on";
+    private String caching = "enable";
 
     @Autowired
     public RedisService(RestTemplate restTemplate, ObjectMapper objectMapper) {
@@ -40,7 +40,7 @@ public class RedisService {
     public UserRoles fetchIdentifierResponseFromCache(
             String domain, String application, String identifier, String identifierType) {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 
@@ -52,7 +52,7 @@ public class RedisService {
             String domain, String application, String identifier, String identifierType)
             throws JsonProcessingException {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 
@@ -93,7 +93,7 @@ public class RedisService {
     public RoleResults fetchApplicationResponseFromCache(
             String domain, String applicationNm, String type) {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 
@@ -104,7 +104,7 @@ public class RedisService {
     public RoleResults fetchApplicationResponseFromDB(
             String domain, String application, String type) throws JsonProcessingException {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 
@@ -147,7 +147,7 @@ public class RedisService {
             String accountIdentifier,
             String identifierType) {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 
@@ -163,7 +163,7 @@ public class RedisService {
             String identifierType)
             throws JsonProcessingException {
 
-        if (!caching.equals("on")) {
+        if (!caching.equals("enable")) {
             return null;
         }
 

@@ -4,7 +4,7 @@ security:
     username: ${BASIC_AUTH_USER}
 cso:
   host: http://127.0.0.1/
-  caching: on
+  caching: enable
 redis:
   host: http://127.0.0.1/
   port: 6379
