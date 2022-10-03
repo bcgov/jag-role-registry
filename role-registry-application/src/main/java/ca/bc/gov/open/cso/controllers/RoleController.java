@@ -25,6 +25,9 @@ public class RoleController {
     @Value("${cso.host}")
     private String host = "https://127.0.0.1/";
 
+    @Value("${cso.caching}")
+    private String caching = "enable";
+
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final RedisService redisService;
@@ -44,42 +47,50 @@ public class RoleController {
             throws JsonProcessingException {
         UserRoles userRoles = null;
 
-        try {
-            userRoles =
-                    redisService.fetchIdentifierResponseFromCache(
-                            getRolesForIdentifier.getDomain(),
-                            getRolesForIdentifier.getApplication(),
-                            getRolesForIdentifier.getIdentifier(),
-                            getRolesForIdentifier.getIdentifierType());
+        if (caching.equals("enable")) {
+            try {
+                userRoles =
+                        redisService.fetchIdentifierResponseFromCache(
+                                getRolesForIdentifier.getDomain(),
+                                getRolesForIdentifier.getApplication(),
+                                getRolesForIdentifier.getIdentifier(),
+                                getRolesForIdentifier.getIdentifierType());
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request cache getRolesForIdentifier",
-                                    objectMapper.writeValueAsString(getRolesForIdentifier))));
+                log.info(
+                        objectMapper.writeValueAsString(
+                                new RequestSuccessLog(
+                                        "Request cache getRolesForIdentifier",
+                                        objectMapper.writeValueAsString(getRolesForIdentifier))));
 
-        } catch (RedisConnectionFailureException ex) {
-            // Commonly caused by redis password error
-            log.error("Redis Error");
-            throw new ORDSException();
-        } catch (Exception ex) {
-            log.error(
-                    objectMapper.writeValueAsString(
-                            new OrdsErrorLog(
-                                    "Redis Exception",
-                                    "getRolesForIdentifier",
-                                    ex.getMessage(),
-                                    getRolesForIdentifier)));
-            throw new ORDSException();
+            } catch (RedisConnectionFailureException ex) {
+                // Commonly caused by redis password error
+                log.error("Redis Error");
+                throw new ORDSException();
+            } catch (Exception ex) {
+                log.error(
+                        objectMapper.writeValueAsString(
+                                new OrdsErrorLog(
+                                        "Redis Exception",
+                                        "getRolesForIdentifier",
+                                        ex.getMessage(),
+                                        getRolesForIdentifier)));
+                throw new ORDSException();
+            }
         }
 
         if (userRoles == null) {
             userRoles =
-                    redisService.fetchIdentifierResponseFromDB(
-                            getRolesForIdentifier.getDomain(),
-                            getRolesForIdentifier.getApplication(),
-                            getRolesForIdentifier.getIdentifier(),
-                            getRolesForIdentifier.getIdentifierType());
+                    caching.equals("enable") == true
+                            ? redisService.fetchIdentifierResponseFromDBCache(
+                                    getRolesForIdentifier.getDomain(),
+                                    getRolesForIdentifier.getApplication(),
+                                    getRolesForIdentifier.getIdentifier(),
+                                    getRolesForIdentifier.getIdentifierType())
+                            : redisService.fetchIdentifierResponseFromDB(
+                                    getRolesForIdentifier.getDomain(),
+                                    getRolesForIdentifier.getApplication(),
+                                    getRolesForIdentifier.getIdentifier(),
+                                    getRolesForIdentifier.getIdentifierType());
         } else {
             log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
         }
@@ -95,40 +106,48 @@ public class RoleController {
             throws JsonProcessingException {
         RoleResults roleResults = null;
 
-        try {
-            roleResults =
-                    redisService.fetchApplicationResponseFromCache(
-                            getRolesForApplication.getDomain(),
-                            getRolesForApplication.getApplication(),
-                            getRolesForApplication.getType());
+        if (caching.equals("enable")) {
+            try {
+                roleResults =
+                        redisService.fetchApplicationResponseFromCache(
+                                getRolesForApplication.getDomain(),
+                                getRolesForApplication.getApplication(),
+                                getRolesForApplication.getType());
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request cache getRolesForApplication",
-                                    objectMapper.writeValueAsString(getRolesForApplication))));
+                log.info(
+                        objectMapper.writeValueAsString(
+                                new RequestSuccessLog(
+                                        "Request cache getRolesForApplication",
+                                        objectMapper.writeValueAsString(getRolesForApplication))));
 
-        } catch (RedisConnectionFailureException ex) {
-            // Commonly caused by redis password error
-            log.error("Redis Error");
-            throw new ORDSException();
-        } catch (Exception ex) {
-            log.error(
-                    objectMapper.writeValueAsString(
-                            new OrdsErrorLog(
-                                    "Redis Exception",
-                                    "getRolesForApplication",
-                                    ex.getMessage(),
-                                    getRolesForApplication)));
-            throw new ORDSException();
+            } catch (RedisConnectionFailureException ex) {
+                // Commonly caused by redis password error
+                log.error("Redis Error");
+                throw new ORDSException();
+            } catch (Exception ex) {
+                log.error(
+                        objectMapper.writeValueAsString(
+                                new OrdsErrorLog(
+                                        "Redis Exception",
+                                        "getRolesForApplication",
+                                        ex.getMessage(),
+                                        getRolesForApplication)));
+                throw new ORDSException();
+            }
         }
 
         if (roleResults == null) {
             roleResults =
-                    redisService.fetchApplicationResponseFromDB(
-                            getRolesForApplication.getDomain(),
-                            getRolesForApplication.getApplication(),
-                            getRolesForApplication.getType());
+                    caching.equals("enable")
+                            ? redisService.fetchApplicationResponseFromDBCache(
+                                    getRolesForApplication.getDomain(),
+                                    getRolesForApplication.getApplication(),
+                                    getRolesForApplication.getType())
+                            : redisService.fetchApplicationResponseFromDB(
+                                    getRolesForApplication.getDomain(),
+                                    getRolesForApplication.getApplication(),
+                                    getRolesForApplication.getType());
+
         } else {
             log.info("Fetching from the Cache Success: \"getRolesForApplication\"");
         }
@@ -144,43 +163,52 @@ public class RoleController {
             throws JsonProcessingException {
         UserRoles userRoles = null;
 
-        try {
-            userRoles =
-                    redisService.fetchIdentityResponseFromCache(
-                            getRolesForIdentity.getDomain(),
-                            getRolesForIdentity.getApplication(),
-                            getRolesForIdentity.getUserIdentifier(),
-                            getRolesForIdentity.getAccountIdentifier(),
-                            getRolesForIdentity.getIdentifierType());
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request cache getRolesForIdentity",
-                                    objectMapper.writeValueAsString(getRolesForIdentity))));
+        if (caching.equals("enable")) {
+            try {
+                userRoles =
+                        redisService.fetchIdentityResponseFromCache(
+                                getRolesForIdentity.getDomain(),
+                                getRolesForIdentity.getApplication(),
+                                getRolesForIdentity.getUserIdentifier(),
+                                getRolesForIdentity.getAccountIdentifier(),
+                                getRolesForIdentity.getIdentifierType());
+                log.info(
+                        objectMapper.writeValueAsString(
+                                new RequestSuccessLog(
+                                        "Request cache getRolesForIdentity",
+                                        objectMapper.writeValueAsString(getRolesForIdentity))));
 
-        } catch (RedisConnectionFailureException ex) {
-            // Commonly caused by redis password error
-            log.error("Redis Error");
-            throw new ORDSException();
-        } catch (Exception ex) {
-            log.error(
-                    objectMapper.writeValueAsString(
-                            new OrdsErrorLog(
-                                    "Redis Exception",
-                                    "getRolesForIdentity",
-                                    ex.getMessage(),
-                                    getRolesForIdentity)));
-            throw new ORDSException();
+            } catch (RedisConnectionFailureException ex) {
+                // Commonly caused by redis password error
+                log.error("Redis Error");
+                throw new ORDSException();
+            } catch (Exception ex) {
+                log.error(
+                        objectMapper.writeValueAsString(
+                                new OrdsErrorLog(
+                                        "Redis Exception",
+                                        "getRolesForIdentity",
+                                        ex.getMessage(),
+                                        getRolesForIdentity)));
+                throw new ORDSException();
+            }
         }
 
         if (userRoles == null) {
             userRoles =
-                    redisService.fetchIdentityResponseFromDB(
-                            getRolesForIdentity.getDomain(),
-                            getRolesForIdentity.getApplication(),
-                            getRolesForIdentity.getUserIdentifier(),
-                            getRolesForIdentity.getAccountIdentifier(),
-                            getRolesForIdentity.getIdentifierType());
+                    caching.equals("enable")
+                            ? redisService.fetchIdentityResponseFromDBCache(
+                                    getRolesForIdentity.getDomain(),
+                                    getRolesForIdentity.getApplication(),
+                                    getRolesForIdentity.getUserIdentifier(),
+                                    getRolesForIdentity.getAccountIdentifier(),
+                                    getRolesForIdentity.getIdentifierType())
+                            : redisService.fetchIdentityResponseFromDB(
+                                    getRolesForIdentity.getDomain(),
+                                    getRolesForIdentity.getApplication(),
+                                    getRolesForIdentity.getUserIdentifier(),
+                                    getRolesForIdentity.getAccountIdentifier(),
+                                    getRolesForIdentity.getIdentifierType());
         } else {
             log.info("Fetching from the Cache Success: \"getRolesForIdentity\"");
         }
