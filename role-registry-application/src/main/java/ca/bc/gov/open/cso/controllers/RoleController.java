@@ -4,6 +4,7 @@ import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.configuration.SoapConfig;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
+import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import ca.bc.gov.open.cso.services.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,6 +51,13 @@ public class RoleController {
                             getRolesForIdentifier.getApplication(),
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request cache getRolesForIdentifier",
+                                    objectMapper.writeValueAsString(getRolesForIdentifier))));
+
         } catch (RedisConnectionFailureException ex) {
             // Commonly caused by redis password error
             log.error("Redis Error");
@@ -93,6 +101,13 @@ public class RoleController {
                             getRolesForApplication.getDomain(),
                             getRolesForApplication.getApplication(),
                             getRolesForApplication.getType());
+
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request cache getRolesForApplication",
+                                    objectMapper.writeValueAsString(getRolesForApplication))));
+
         } catch (RedisConnectionFailureException ex) {
             // Commonly caused by redis password error
             log.error("Redis Error");
@@ -137,6 +152,12 @@ public class RoleController {
                             getRolesForIdentity.getUserIdentifier(),
                             getRolesForIdentity.getAccountIdentifier(),
                             getRolesForIdentity.getIdentifierType());
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request cache getRolesForIdentity",
+                                    objectMapper.writeValueAsString(getRolesForIdentity))));
+
         } catch (RedisConnectionFailureException ex) {
             // Commonly caused by redis password error
             log.error("Redis Error");

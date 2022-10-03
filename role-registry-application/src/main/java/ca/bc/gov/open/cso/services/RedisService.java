@@ -3,6 +3,7 @@ package ca.bc.gov.open.cso.services;
 import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
+import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -71,6 +72,18 @@ public class RedisService {
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
             log.info("Fetch Success from DB: \"getRolesForIdentifier\"");
+
+            var getRolesForIdentifier = new GetRolesForIdentifier();
+            getRolesForIdentifier.setDomain(domain);
+            getRolesForIdentifier.setApplication(application);
+            getRolesForIdentifier.setIdentifier(identifier);
+            getRolesForIdentifier.setIdentifierType(identifierType);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request database getRolesForIdentifier",
+                                    objectMapper.writeValueAsString(getRolesForIdentifier))));
+
             return resp.getBody();
         } catch (Exception ex) {
             var getRolesForIdentifier = new GetRolesForIdentifier();
@@ -122,6 +135,17 @@ public class RedisService {
                             new HttpEntity<>(new HttpHeaders()),
                             RoleResults.class);
             log.info("Fetch Success from DB: \"getRolesForApplication\"");
+
+            var getRolesForApplication = new GetRolesForApplication();
+            getRolesForApplication.setDomain(domain);
+            getRolesForApplication.setApplication(application);
+            getRolesForApplication.setType(type);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request database getRolesForApplication",
+                                    objectMapper.writeValueAsString(getRolesForApplication))));
+
             return resp.getBody();
         } catch (Exception ex) {
             var getRolesForApplication = new GetRolesForApplication();
@@ -183,6 +207,19 @@ public class RedisService {
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
             log.info("Fetch Success from DB: \"getRolesForIdentity\"");
+
+            var getRolesForIdentity = new GetRolesForIdentity();
+            getRolesForIdentity.setDomain(domain);
+            getRolesForIdentity.setApplication(application);
+            getRolesForIdentity.setUserIdentifier(userIdentifier);
+            getRolesForIdentity.setAccountIdentifier(accountIdentifier);
+            getRolesForIdentity.setIdentifierType(identifierType);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request database getRolesForIdentity",
+                                    objectMapper.writeValueAsString(getRolesForIdentity))));
+
             return resp.getBody();
         } catch (Exception ex) {
             var getRolesForIdentity = new GetRolesForIdentity();
