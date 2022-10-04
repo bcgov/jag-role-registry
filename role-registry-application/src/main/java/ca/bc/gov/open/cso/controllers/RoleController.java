@@ -73,12 +73,11 @@ public class RoleController {
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
-                                    "Request  getRolesForIdentifier",
+                                    "Fetching from the Cache Success: \"getRolesForIdentifier\"",
                                     objectMapper.writeValueAsString(getRolesForIdentifier))));
         }
         var out = new GetRolesForIdentifierResponse();
@@ -120,12 +119,11 @@ public class RoleController {
                             getRolesForApplication.getApplication(),
                             getRolesForApplication.getType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForApplication\"");
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
-                                    "Request  getRolesForApplication",
+                                    "Fetching from the Cache Success: \"getRolesForApplication\"",
                                     objectMapper.writeValueAsString(getRolesForApplication))));
         }
         var out = new GetRolesForApplicationResponse();
@@ -171,12 +169,11 @@ public class RoleController {
                             getRolesForIdentity.getAccountIdentifier(),
                             getRolesForIdentity.getIdentifierType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForIdentity\"");
 
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
-                                    "Request cache getRolesForIdentity",
+                                    "Fetching from the Cache Success: \"getRolesForIdentity\"",
                                     objectMapper.writeValueAsString(getRolesForIdentity))));
         }
         var out = new GetRolesForIdentityResponse();

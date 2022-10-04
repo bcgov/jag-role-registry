@@ -38,7 +38,7 @@ public class RedisService {
 
     @Cacheable(
             cacheNames = "IdentifierCache",
-            condition = "#root.target.caching=='enable'",
+            condition = "#root.target.caching!='enable'",
             unless = "#result == null")
     public UserRoles fetchIdentifierResponseFromCache(
             String domain, String application, String identifier, String identifierType) {
@@ -84,7 +84,7 @@ public class RedisService {
 
     @Cacheable(
             cacheNames = "ApplicationCache",
-            condition = "#root.target.caching=='enable'",
+            condition = "#root.target.caching!='enable'",
             unless = "#result == null")
     public RoleResults fetchApplicationResponseFromCache(
             String domain, String applicationNm, String type) {
@@ -127,7 +127,7 @@ public class RedisService {
 
     @Cacheable(
             cacheNames = "IdentityCache",
-            condition = "#root.target.caching=='enable'",
+            condition = "#root.target.caching!='enable'",
             unless = "#result == null")
     public UserRoles fetchIdentityResponseFromCache(
             String domain,
