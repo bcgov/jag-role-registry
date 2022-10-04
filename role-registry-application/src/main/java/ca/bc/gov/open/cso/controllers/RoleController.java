@@ -73,7 +73,6 @@ public class RoleController {
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
         } else {
-
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
@@ -119,7 +118,6 @@ public class RoleController {
                             getRolesForApplication.getApplication(),
                             getRolesForApplication.getType());
         } else {
-
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
@@ -169,7 +167,6 @@ public class RoleController {
                             getRolesForIdentity.getAccountIdentifier(),
                             getRolesForIdentity.getIdentifierType());
         } else {
-
             log.info(
                     objectMapper.writeValueAsString(
                             new RequestSuccessLog(
