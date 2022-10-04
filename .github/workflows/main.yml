@@ -171,21 +171,21 @@ jobs:
 
       - name: Run Integration Tests
         env:
-          TEST_STARTER_URL: ${{ secrets.TEST_STARTER_URL }}
-          BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
-          BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
+          TEST_STARTER_URL: ${{secrets.TEST_STARTER_URL}}
+          BASIC_AUTH_USER: ${{secrets.BASIC_AUTH_USER}}
+          BASIC_AUTH_PASS: ${{secrets.BASIC_AUTH_PASS}}
         run: |
           RET=`curl --write-out '%{content_type}' --output TestErrors.zip --request GET --user ${BASIC_AUTH_USER}:${BASIC_AUTH_PASS} --url ${TEST_STARTER_URL}`
           if [ "$RET" = "application/zip" ]; then
-            echo "Status: Failed Integration Test(s) found!"
-            exit 1
+          echo "Status: Failed Integration Test(s) found!"
+          exit 1
           fi
-          if [ "$RET" = "application/json" ]; then
-            echo "Status: All Tests Passed"
+          if [[ "$RET" == *"json"* ]]; then
+          echo "Status: All Tests Passed"
           fi
-          if [ "$RET" != "application/zip" ] && [ "$RET" != "application/json" ]; then
-            echo "Received content_type is $RET, was expecting application/json or application/zip"
-            exit 1
+          if [ "$RET" != "application/zip" ] && [[ "$RET" != *"json"* ]]; then
+          echo "Received content_type is $RET, was expecting json or zip"
+          exit 1
           fi
 
       - name: Archive production artifacts
