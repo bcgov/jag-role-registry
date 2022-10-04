@@ -4,6 +4,7 @@ security:
     username: ${BASIC_AUTH_USER}
 cso:
   host: ${ORDS_HOST}
+  caching: ${CACHING}
 redis:
   host: ${REDIS_HOST}
   port: ${REDIS_PORT}

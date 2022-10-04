@@ -4,6 +4,7 @@ import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.configuration.SoapConfig;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
+import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import ca.bc.gov.open.cso.services.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -72,7 +73,11 @@ public class RoleController {
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Fetching from the Cache Success: \"getRolesForIdentifier\"",
+                                    objectMapper.writeValueAsString(getRolesForIdentifier))));
         }
         var out = new GetRolesForIdentifierResponse();
         out.setUserRoles(userRoles);
@@ -113,7 +118,11 @@ public class RoleController {
                             getRolesForApplication.getApplication(),
                             getRolesForApplication.getType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForApplication\"");
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Fetching from the Cache Success: \"getRolesForApplication\"",
+                                    objectMapper.writeValueAsString(getRolesForApplication))));
         }
         var out = new GetRolesForApplicationResponse();
         out.setRoleResults(roleResults);
@@ -158,7 +167,11 @@ public class RoleController {
                             getRolesForIdentity.getAccountIdentifier(),
                             getRolesForIdentity.getIdentifierType());
         } else {
-            log.info("Fetching from the Cache Success: \"getRolesForIdentity\"");
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Fetching from the Cache Success: \"getRolesForIdentity\"",
+                                    objectMapper.writeValueAsString(getRolesForIdentity))));
         }
         var out = new GetRolesForIdentityResponse();
         out.setUserRoles(userRoles);
