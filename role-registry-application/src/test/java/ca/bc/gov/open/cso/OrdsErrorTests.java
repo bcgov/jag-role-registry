@@ -20,7 +20,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
@@ -61,8 +60,6 @@ public class OrdsErrorTests {
                         Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenThrow(new ORDSException());
 
-        ReflectionTestUtils.setField(roleController, "caching", "disable", String.class);
-
         Assertions.assertThrows(
                 ORDSException.class,
                 () -> roleController.getRolesForIdentifier(new GetRolesForIdentifier()));
@@ -78,8 +75,6 @@ public class OrdsErrorTests {
                         Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenThrow(new ORDSException());
 
-        ReflectionTestUtils.setField(roleController, "caching", "disable", String.class);
-
         Assertions.assertThrows(
                 ORDSException.class,
                 () -> roleController.getRolesForApplication(new GetRolesForApplication()));
@@ -94,8 +89,6 @@ public class OrdsErrorTests {
         when(redisService.fetchIdentityResponseFromDB(
                         Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any(), Mockito.any()))
                 .thenThrow(new ORDSException());
-
-        ReflectionTestUtils.setField(roleController, "caching", "disable", String.class);
 
         Assertions.assertThrows(
                 ORDSException.class,
