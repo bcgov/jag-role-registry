@@ -6,6 +6,8 @@ import ca.bc.gov.open.cso.models.OrdsErrorLog;
 import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -70,6 +72,15 @@ public class RedisService {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
+
+            // Objectmapper is unable to deserialize an empty array into a tag
+            // Therefore an empty object is added into the array as following
+            if (resp.getBody().getRoles().isEmpty()) {
+                List<RegisteredRole> l = new ArrayList<>();
+                RegisteredRole emptyRole = new RegisteredRole();
+                l.add(emptyRole);
+                resp.getBody().setRoles(l);
+            }
 
             log.info(
                     objectMapper.writeValueAsString(
@@ -183,6 +194,15 @@ public class RedisService {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             UserRoles.class);
+
+            // Objectmapper is unable to deserialize an empty array into a tag
+            // Therefore an empty object is added into the array as following
+            if (resp.getBody().getRoles().isEmpty()) {
+                List<RegisteredRole> l = new ArrayList<>();
+                RegisteredRole emptyRole = new RegisteredRole();
+                l.add(emptyRole);
+                resp.getBody().setRoles(l);
+            }
 
             log.info(
                     objectMapper.writeValueAsString(
