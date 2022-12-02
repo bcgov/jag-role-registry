@@ -3,7 +3,6 @@ package ca.bc.gov.open.cso.services;
 import ca.bc.gov.open.cso.*;
 import ca.bc.gov.open.cso.exceptions.ORDSException;
 import ca.bc.gov.open.cso.models.OrdsErrorLog;
-import ca.bc.gov.open.cso.models.RequestSuccessLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
@@ -59,12 +58,6 @@ public class RedisService {
                         .queryParam("identifier", identifier)
                         .queryParam("identifierType", identifierType);
 
-        var getRolesForIdentifier = new GetRolesForIdentifier();
-        getRolesForIdentifier.setDomain(domain);
-        getRolesForIdentifier.setApplication(application);
-        getRolesForIdentifier.setIdentifier(identifier);
-        getRolesForIdentifier.setIdentifierType(identifierType);
-
         try {
             HttpEntity<UserRoles> resp =
                     restTemplate.exchange(
@@ -82,11 +75,7 @@ public class RedisService {
                 resp.getBody().setRoles(l);
             }
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Fetch Success from DB: \"getRolesForIdentifier\"",
-                                    objectMapper.writeValueAsString(getRolesForIdentifier))));
+            log.info("Fetch Success from DB: \"getRolesForIdentifier\" " + builder.toUriString());
 
             return resp.getBody();
         } catch (Exception ex) {
@@ -96,7 +85,7 @@ public class RedisService {
                                     "Error received from ORDS",
                                     "getRolesForIdentifier",
                                     ex.getMessage(),
-                                    getRolesForIdentifier)));
+                                    builder.toUriString())));
             throw new ORDSException();
         }
     }
@@ -119,11 +108,6 @@ public class RedisService {
                         .queryParam("application", application)
                         .queryParam("type", type);
 
-        var getRolesForApplication = new GetRolesForApplication();
-        getRolesForApplication.setDomain(domain);
-        getRolesForApplication.setApplication(application);
-        getRolesForApplication.setType(type);
-
         try {
             HttpEntity<RoleResults> resp =
                     restTemplate.exchange(
@@ -132,11 +116,7 @@ public class RedisService {
                             new HttpEntity<>(new HttpHeaders()),
                             RoleResults.class);
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Fetch Success from DB: \"getRolesForApplication\"",
-                                    objectMapper.writeValueAsString(getRolesForApplication))));
+            log.info("Fetch Success from DB: \"getRolesForApplication\" " + builder.toUriString());
 
             return resp.getBody();
         } catch (Exception ex) {
@@ -146,7 +126,7 @@ public class RedisService {
                                     "Error received from ORDS",
                                     "getRolesForApplication",
                                     ex.getMessage(),
-                                    getRolesForApplication)));
+                                    builder.toUriString())));
             throw new ORDSException();
         }
     }
@@ -180,13 +160,6 @@ public class RedisService {
                         .queryParam("accountIdentifier", accountIdentifier)
                         .queryParam("identifierType", identifierType);
 
-        var getRolesForIdentity = new GetRolesForIdentity();
-        getRolesForIdentity.setDomain(domain);
-        getRolesForIdentity.setApplication(application);
-        getRolesForIdentity.setUserIdentifier(userIdentifier);
-        getRolesForIdentity.setAccountIdentifier(accountIdentifier);
-        getRolesForIdentity.setIdentifierType(identifierType);
-
         try {
             HttpEntity<UserRoles> resp =
                     restTemplate.exchange(
@@ -204,11 +177,7 @@ public class RedisService {
                 resp.getBody().setRoles(l);
             }
 
-            log.info(
-                    objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Fetch Success from DB: \"getRolesForIdentity\"",
-                                    objectMapper.writeValueAsString(getRolesForIdentity))));
+            log.info("Fetch Success from DB: \"getRolesForIdentity\" " + builder.toUriString());
 
             return resp.getBody();
         } catch (Exception ex) {
@@ -218,7 +187,7 @@ public class RedisService {
                                     "Error received from ORDS",
                                     "getRolesForIdentity",
                                     ex.getMessage(),
-                                    getRolesForIdentity)));
+                                    builder.toUriString())));
             throw new ORDSException();
         }
     }
