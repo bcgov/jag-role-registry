@@ -42,7 +42,7 @@ public class RoleController {
             @RequestPayload GetRolesForIdentifier getRolesForIdentifier)
             throws JsonProcessingException {
         UserRoles userRoles = new UserRoles();
-        /** temp code - only to test resp time without ORDS and Caching **/
+        /** temp code - only to test resp time without ORDS and Caching * */
         if (true) {
             var out = new GetRolesForIdentifierResponse();
             userRoles.setIdentifierType("test - no caching or ORDS!");
