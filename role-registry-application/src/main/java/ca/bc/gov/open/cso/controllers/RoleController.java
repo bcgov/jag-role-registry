@@ -41,14 +41,7 @@ public class RoleController {
     public GetRolesForIdentifierResponse getRolesForIdentifier(
             @RequestPayload GetRolesForIdentifier getRolesForIdentifier)
             throws JsonProcessingException {
-        UserRoles userRoles = new UserRoles();
-        /** temp code - only to test resp time without ORDS and Caching * */
-        if (true) {
-            var out = new GetRolesForIdentifierResponse();
-            userRoles.setIdentifierType("test - no caching or ORDS!");
-            out.setUserRoles(userRoles);
-            return out;
-        }
+        UserRoles userRoles = null;
         try {
             userRoles =
                     redisService.fetchIdentifierResponseFromCache(
