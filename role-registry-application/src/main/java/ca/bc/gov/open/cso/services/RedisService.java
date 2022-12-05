@@ -75,7 +75,8 @@ public class RedisService {
                 resp.getBody().setRoles(l);
             }
 
-            log.info("Fetch Success from DB: \"getRolesForIdentifier\" " + builder.toUriString());
+            //            log.info("Fetch Success from DB: \"getRolesForIdentifier\" " +
+            // builder.toUriString());
 
             return resp.getBody();
         } catch (Exception ex) {
