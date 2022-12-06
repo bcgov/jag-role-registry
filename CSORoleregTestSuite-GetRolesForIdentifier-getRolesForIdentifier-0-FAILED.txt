@@ -1,0 +1,73 @@
+Status: FAILED
+Time Taken: 572
+Size: 677
+Timestamp: Wed Oct 05 07:25:34 PDT 2022
+TestStep: getRolesForIdentifier
+
+----------------- Messages ------------------------------
+[Contains 1] Missing token [CAEF] in Response
+[Contains 2] Missing token [Court Of Appeal E-Filing] in Response
+
+----------------- Properties ------------------------------
+Endpoint: https://jag-role-registry-e97df9-dev.apps.gold.devops.gov.bc.ca/ws
+Username: csodev
+Encoding: UTF-8
+Password: Welcome12!
+
+---------------- Request ---------------------------
+Request Headers: SOAPAction : "RoleRegistry_Source_RoleRegistry_ws_provider_RoleRegistry_Binder_getRolesForApplication"
+Connection : Keep-Alive
+User-Agent : Apache-HttpClient/4.5.13 (Java/11.0.13)
+Host : jag-role-registry-e97df9-dev.apps.gold.devops.gov.bc.ca
+Accept-Encoding : gzip,deflate
+Content-Length : 493
+Content-Type : text/xml;charset=UTF-8
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:rol="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <rol:getRolesForIdentifier>
+         <domain>Courts</domain>
+         <application>CSO</application>
+         <identifier>4636963CED2B4CEFBCA3C92DE71CC091</identifier>
+         <identifierType>CAP</identifierType>
+      </rol:getRolesForIdentifier>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+---------------- Response --------------------------
+Response Headers: date : Wed, 05 Oct 2022 14:26:53 GMT
+content-length : 677
+expires : 0
+soapaction : ""
+x-frame-options : DENY
+pragma : no-cache
+strict-transport-security : max-age=31536000 ; includeSubDomains
+accept : text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+set-cookie : 263a026684c0ebe515823a28035becce=2348074c324e2aa62782305bfb8ac6b0; path=/; HttpOnly; Secure; SameSite=None
+x-content-type-options : nosniff
+x-xss-protection : 1; mode=block
+content-type : text/xml;charset=utf-8
+#status# : HTTP/1.1 200 
+cache-control : no-cache, no-store, max-age=0, must-revalidate
+
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+   <SOAP-ENV:Header/>
+   <SOAP-ENV:Body>
+      <ser-root:getRolesForIdentifierResponse xmlns:ser-root="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <userRoles>
+            <domain>Courts</domain>
+            <application>CSO</application>
+            <identifier>4636963CED2B4CEFBCA3C92DE71CC091</identifier>
+            <identifierType>CAP</identifierType>
+            <roles>
+               <code>IND</code>
+               <description>CSO Individual Client</description>
+               <type>Client</type>
+            </roles>
+         </userRoles>
+      </ser-root:getRolesForIdentifierResponse>
+   </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
