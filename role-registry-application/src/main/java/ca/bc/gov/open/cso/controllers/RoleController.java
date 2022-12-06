@@ -7,7 +7,6 @@ import ca.bc.gov.open.cso.models.OrdsErrorLog;
 import ca.bc.gov.open.cso.services.RedisService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,9 +41,6 @@ public class RoleController {
     public GetRolesForIdentifierResponse getRolesForIdentifier(
             @RequestPayload GetRolesForIdentifier getRolesForIdentifier)
             throws JsonProcessingException {
-
-        long entryTime = new Date().getTime();
-
         UserRoles userRoles = null;
         try {
             userRoles =
@@ -75,17 +71,8 @@ public class RoleController {
                             getRolesForIdentifier.getApplication(),
                             getRolesForIdentifier.getIdentifier(),
                             getRolesForIdentifier.getIdentifierType());
-            long dbTime = new Date().getTime();
-            log.info(
-                    "Fetching from the DB Success: \"getRolesForIdentifier\" "
-                            + (dbTime - entryTime)
-                            + "ms");
         } else {
-            long cacheTime = new Date().getTime();
-            log.info(
-                    "Fetching from the Cache Success: \"getRolesForIdentifier\" "
-                            + (cacheTime - entryTime)
-                            + "ms");
+            log.info("Fetching from the Cache Success: \"getRolesForIdentifier\"");
         }
         var out = new GetRolesForIdentifierResponse();
         out.setUserRoles(userRoles);
