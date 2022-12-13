@@ -8,6 +8,8 @@
 * Docker
 * Maven
 * Java 11
+* Lombok
+* RabbitMQ
 
 ### Application Endpoints
 
@@ -59,15 +61,13 @@ Via IDE
 2) Run the application
 
 Via Jar
-1) Set env variables.
-2) Run ```mvn package```
-3) Run ```java -jar ./target/cso-application.jar```
+1) Run ```mvn package```
+2) Run ```java -jar ./target/cso-application.jar $ENV_VAR$```  (Note that $ENV_VAR$ are environment variables)
 
 Via Docker
-1) Set env variables.
-2) Run ```mvn package```
-3) Run ```docker build -t role-reg-api .``` from root folder
-4) Run ```docker run -p 8080:8080 role-reg-api```
+1) Run ```mvn package```
+2) Run ```docker build -t role-reg-api .``` from root folder
+3) Run ```docker run -p 8080:8080 role-reg-api $ENV_VAR$```  (Note that $ENV_VAR$ are environment variables)
 
 ### Pre Commit
 1) Do not commit \CRLF use unix line enders
