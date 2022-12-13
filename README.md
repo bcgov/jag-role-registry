@@ -19,6 +19,8 @@ WSDL Endpoint Local: http://localhost:8080/ws/RoleRegistry.Source.RoleRegistry.w
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
 
+Code Climate: https://codeclimate.com/github/bcgov/jag-role-registry
+
 ### Required Environmental Variables
 
 BASIC_AUTH_PASS: The password for the basic authentication. This can be any value for local.
@@ -48,7 +50,7 @@ before they can be pushed to.
 ### Building the Application
 1) Make sure using java 11 for the project modals and sdk
 2) Run ``mvn compile``
-3) Make sure ```target/generated-sources/xjc``` folder in included in module path
+3) Make sure ```role-registry-common-models``` is marked as generated sources root (xjc)
 
 ### Pre-running application
 * Install and run Redis
