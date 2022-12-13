@@ -31,6 +31,10 @@ REDIS_PORT: Redis port, 6379 by default
 
 REDIS_AUTH_PASS: Redis password for authentication
 
+REDIS_TTL_SEC: the time to live for key being set in redis. When the TTL elapses, the key is automatically destroyed.
+
+CACHING: enable/disable redis caching.
+
 ### Optional Enviromental Variables
 SPLUNK_HTTP_URL: The url for the splunk hec.
 
