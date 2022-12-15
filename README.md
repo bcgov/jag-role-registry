@@ -9,7 +9,7 @@
 * Maven
 * Java 11
 * Lombok
-* RabbitMQ
+* Redis
 
 ### Application Endpoints
 
