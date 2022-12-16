@@ -6,12 +6,18 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
@@ -40,9 +46,26 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     @Bean
     public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
-        return restTemplate;
+        PoolingHttpClientConnectionManager connectionManager =
+                new PoolingHttpClientConnectionManager();
+        connectionManager.setMaxTotal(500);
+        connectionManager.setDefaultMaxPerRoute(100);
+        RequestConfig requestConfig =
+                RequestConfig.custom()
+                        .setConnectionRequestTimeout(5000) // timeout to get connection from pool
+                        .setSocketTimeout(5000) // standard connection timeout
+                        .setConnectTimeout(5000) // standard connection timeout
+                        .build();
+
+        HttpClient httpClient =
+                HttpClientBuilder.create()
+                        .setConnectionManager(connectionManager)
+                        .setDefaultRequestConfig(requestConfig)
+                        .build();
+
+        ClientHttpRequestFactory requestFactory =
+                new HttpComponentsClientHttpRequestFactory(httpClient);
+        return new RestTemplate(requestFactory);
     }
 
     private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {

@@ -216,6 +216,10 @@
             <artifactId>snakeyaml</artifactId>
             <version>1.33</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
