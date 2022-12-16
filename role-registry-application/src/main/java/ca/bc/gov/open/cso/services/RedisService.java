@@ -59,7 +59,6 @@ public class RedisService {
                         .queryParam("identifierType", identifierType);
 
         try {
-            HttpHeaders h = new HttpHeaders();
             HttpEntity<UserRoles> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
