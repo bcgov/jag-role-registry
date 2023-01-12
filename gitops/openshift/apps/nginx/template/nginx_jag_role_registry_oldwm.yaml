@@ -55,6 +55,12 @@ objects:
         access_log off;
       }
 
+      location /actuator/health {
+        default_type application/json;
+        return 200 '{"status":"UP","groups":["liveness","readiness"]}';
+        access_log off;
+      }
+
       location /ws {
         client_max_body_size 100m;
         proxy_read_timeout 240s;
@@ -125,7 +131,13 @@ objects:
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
-            resources: {}
+            resources:
+              limits:
+                cpu: 100m
+                memory: 200Mi
+              requests:
+                cpu: 50m
+                memory: 100Mi
             volumeMounts:
               - name: ${COMPONENT_NAME}-conf
                 readOnly: true

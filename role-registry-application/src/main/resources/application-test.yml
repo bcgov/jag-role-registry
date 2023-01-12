@@ -1,0 +1,12 @@
+security:
+  basic-auth:
+    password: ${BASIC_AUTH_PASS}
+    username: ${BASIC_AUTH_USER}
+cso:
+  host: http://127.0.0.1/
+  caching: enable
+redis:
+  host: http://127.0.0.1/
+  port: 6379
+  ttl: 120
+  redis-auth-pass: ${BASIC_AUTH_PASS}

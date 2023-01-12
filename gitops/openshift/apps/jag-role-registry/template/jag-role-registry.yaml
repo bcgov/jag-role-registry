@@ -52,7 +52,7 @@ parameters:
   description: The http Authorization header required for performing livenessProbe & readinessProbe in deployment config during container start.
   required: true
   value: ''
-  
+
 objects:
 
 ### JAG-ROLE-REGISTRY Deployment Config ###
@@ -61,6 +61,8 @@ objects:
   metadata:
     name: ${COMPONENT_NAME}
     namespace: ${OC_NAMESPACE}-${OC_ENV}
+    annotations:
+      app.openshift.io/connects-to: redis
       
   spec:
     completionDeadlineSeconds: 1200
@@ -105,15 +107,15 @@ objects:
                   name: role-registry-application-secrets
                   key: REDIS_PORT
             - name: REDIS_TTL_SEC
-                valueFrom:
-                  secretKeyRef:
-                    name: role-registry-application-secrets
-                    key: REDIS_TTL_SEC
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_TTL_SEC
             - name: REDIS_AUTH_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: role-registry-application-secrets
-                    key: REDIS_AUTH_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: REDIS_AUTH_PASS
             - name: SPRING_PROFILES_ACTIVE
               valueFrom:
                 secretKeyRef:
@@ -139,9 +141,14 @@ objects:
                 secretKeyRef:
                   name: role-registry-application-secrets
                   key: ORDS_HOST
+            - name: CACHING
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: CACHING
             resources:
               limits:
-                cpu: 500m
+                cpu: 200m
                 memory: 512Mi
               requests:
                 cpu: 50m

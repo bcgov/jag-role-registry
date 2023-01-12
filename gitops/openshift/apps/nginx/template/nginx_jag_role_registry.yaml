@@ -46,10 +46,23 @@ parameters:
   value: nginx-jag-role-registry-oldwm
 
 - name: DNS
-  description: The application name that each component is part of
+  description: The nginx router url
+  required: true
+
+- name: SSL_Certificate
+  description: SSL application certificate
   required: false
-  # Below value must be changed as per gold cluster certificate/DNS
-  value: apps.gold.devops.gov.bc.ca
+  value: ''
+
+- name: SSL_PrivateKey
+  description: Private key for the SSL application certificate
+  required: false
+  value: ''
+
+- name: CA_CertificateChain
+  description: CA certificate chain for the SSL application certificate
+  required: false
+  value: ''
 
 objects:
 
@@ -69,6 +82,12 @@ objects:
       location = /api {
         return 302 /api/actuator/health;
       }
+
+      location /healthcheck {
+          default_type application/json;
+          return 200 '{"status":"UP","groups":["liveness","readiness"]}';
+          access_log off;
+        }
 
       location /api/actuator/health {
         client_max_body_size 100m;
@@ -174,7 +193,13 @@ objects:
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
-            resources: {}
+            resources:
+              limits:
+                cpu: 100m
+                memory: 200Mi
+              requests:
+                cpu: 50m
+                memory: 100Mi
             volumeMounts:
               - name: ${COMPONENT_NAME}-conf
                 readOnly: true
@@ -227,5 +252,8 @@ objects:
       targetPort: 8080-tcp
     tls:
       termination: edge
+      certificate: '${SSL_Certificate}'
+      key: '${SSL_PrivateKey}'
+      caCertificate: '${CA_CertificateChain}'
       insecureEdgeTerminationPolicy: None
     wildcardPolicy: None

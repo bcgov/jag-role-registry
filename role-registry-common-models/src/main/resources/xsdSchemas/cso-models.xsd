@@ -1,0 +1,163 @@
+<xsd:schema targetNamespace="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://brooks/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry">
+
+    <xsd:element name="getPing">
+        <xsd:complexType>
+            <xsd:sequence/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getPingResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="status" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getHealth">
+        <xsd:complexType>
+            <xsd:sequence/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getHealthResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="appid" nillable="true" type="xsd:string"/>
+                <xsd:element name="method" nillable="true" type="xsd:string"/>
+                <xsd:element name="status" nillable="true" type="xsd:string"/>
+                <xsd:element name="host" nillable="true" type="xsd:string"/>
+                <xsd:element name="instance" nillable="true" type="xsd:string"/>
+                <xsd:element name="version" nillable="true" type="xsd:string"/>
+                <xsd:element name="compatibility" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getRolesForIdentifier">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="changeRolesForIdentifier">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getRolesForIdentifierResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="UserRoles">
+        <xsd:sequence>
+            <xsd:element name="domain" nillable="true" type="xsd:string"/>
+            <xsd:element name="application" nillable="true" type="xsd:string"/>
+            <xsd:element name="identifier" nillable="true" type="xsd:string"/>
+            <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            <xsd:element name="roles" nillable="true" type="tns:RegisteredRole" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="RegisteredRole">
+        <xsd:sequence>
+            <xsd:element name="code" nillable="true" type="xsd:string"/>
+            <xsd:element name="description" nillable="true" type="xsd:string"/>
+            <xsd:element name="type" nillable="true" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="getRolesForApplication">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="type" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="changeRolesForApplication">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="type" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getRolesForApplicationResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="roleResults" nillable="true" type="tns:RoleResults"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="RoleResults">
+        <xsd:sequence>
+            <xsd:element name="domain" nillable="true" type="xsd:string"/>
+            <xsd:element name="application" nillable="true" type="xsd:string"/>
+            <xsd:element name="roles" nillable="true" type="tns:RegisteredRole" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="getRolesForIdentity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="userIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="accountIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="changeRolesForIdentity">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="domain" nillable="true" type="xsd:string"/>
+                <xsd:element name="application" nillable="true" type="xsd:string"/>
+                <xsd:element name="userIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="accountIdentifier" nillable="true" type="xsd:string"/>
+                <xsd:element name="identifierType" nillable="true" type="xsd:string"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="getRolesForIdentityResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="userRoles" nillable="true" type="tns:UserRoles"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="clearCache">
+        <xsd:complexType>
+            <xsd:sequence>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
+

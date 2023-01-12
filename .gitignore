@@ -39,3 +39,5 @@ cc-test-reporter
 /Roleregistry-soapui-project.xml
 /TestErrors.zip
 /RoleRegistryTestSuite*.txt
+/comparison-tool/results/*.txt
+

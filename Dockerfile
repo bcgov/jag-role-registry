@@ -1,5 +1,5 @@
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-jammy
 
-COPY ./target/cso-application.jar cso-application.jar
+COPY ./role-registry-application/target/cso-application.jar cso-application.jar
 
 ENTRYPOINT ["java","-jar","/cso-application.jar"]
