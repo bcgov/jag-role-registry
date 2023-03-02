@@ -141,6 +141,16 @@ objects:
                 secretKeyRef:
                   name: role-registry-application-secrets
                   key: ORDS_HOST
+            - name: ORDS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: ORDS_USERNAME
+            - name: ORDS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: role-registry-application-secrets
+                  key: ORDS_PASSWORD
             - name: CACHING
               valueFrom:
                 secretKeyRef:

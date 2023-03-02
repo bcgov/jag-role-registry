@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11-jre-jammy
+FROM eclipse-temurin:11-jre-alpine
 
 COPY ./role-registry-application/target/cso-application.jar cso-application.jar
 

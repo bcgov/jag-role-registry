@@ -29,6 +29,10 @@ BASIC_AUTH_USER: The username for the basic authentication. This can be any valu
 
 ORDS_HOST: The url for ords rest package.
 
+ORDS_USERNAME: ORDS_HOST authentication
+
+ORDS_PASSWORD: ORDS_HOST authentication
+
 REDIS_HOST: Redis url, 'localhost' by default if redis is installed on the local device
 
 REDIS_PORT: Redis port, 6379 by default
