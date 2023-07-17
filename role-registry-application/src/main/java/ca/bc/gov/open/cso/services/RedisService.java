@@ -75,7 +75,7 @@ public class RedisService {
                 resp.getBody().setRoles(l);
             }
 
-            log.info("Fetch Success from DB: \"getRolesForIdentifier\" " + builder.toUriString());
+            log.info("Fetch Success from DB: \"getRolesForIdentifier\"");
 
             return resp.getBody();
         } catch (Exception ex) {
@@ -116,7 +116,7 @@ public class RedisService {
                             new HttpEntity<>(new HttpHeaders()),
                             RoleResults.class);
 
-            log.info("Fetch Success from DB: \"getRolesForApplication\" " + builder.toUriString());
+            log.info("Fetch Success from DB: \"getRolesForApplication\"");
 
             return resp.getBody();
         } catch (Exception ex) {
@@ -177,7 +177,7 @@ public class RedisService {
                 resp.getBody().setRoles(l);
             }
 
-            log.info("Fetch Success from DB: \"getRolesForIdentity\" " + builder.toUriString());
+            log.info("Fetch Success from DB: \"getRolesForIdentity\"");
 
             return resp.getBody();
         } catch (Exception ex) {
