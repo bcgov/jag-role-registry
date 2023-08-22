@@ -8,9 +8,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,19 +22,18 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RoleControllerTest {
-    private RoleController roleController;
-
+    @Mock private RoleController roleController;
     @Mock private RestTemplate restTemplate = new RestTemplate();
-
-    @Autowired private ObjectMapper objectMapper;
-
+    @Mock private ObjectMapper objectMapper;
     @Mock private RedisService redisService;
 
-    @Autowired private MockMvc mockMvc;
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        roleController = Mockito.spy(new RoleController(restTemplate, objectMapper, redisService));
+    }
 
     @Test
     public void getRolesForIdentifierTest() throws JsonProcessingException {
@@ -52,19 +54,17 @@ public class RoleControllerTest {
         rr.setDescription("A");
         rr.setType("A");
 
-        resp.setRoles(Collections.singletonList(rr));
+        resp.getRoles().add(rr);
 
         ResponseEntity<UserRoles> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
 
-        RoleController roleController =
-                new RoleController(restTemplate, objectMapper, redisService);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<UserRoles>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<UserRoles>>any()))
                 .thenReturn(responseEntity);
 
         var out = roleController.getRolesForIdentifier(req);
@@ -89,18 +89,17 @@ public class RoleControllerTest {
         rr.setDescription("A");
         rr.setType("A");
 
-        roleResults.setRoles(Collections.singletonList(rr));
+        roleResults.getRoles().add(rr);
 
         ResponseEntity<RoleResults> responseEntity =
                 new ResponseEntity<>(roleResults, HttpStatus.OK);
-        RoleController roleController =
-                new RoleController(restTemplate, objectMapper, redisService);
+
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<RoleResults>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<RoleResults>>any()))
                 .thenReturn(responseEntity);
 
         var out = roleController.getRolesForApplication(req);
@@ -129,19 +128,16 @@ public class RoleControllerTest {
         rr.setDescription("A");
         rr.setType("A");
 
-        resp.setRoles(Collections.singletonList(rr));
+        resp.getRoles().add(rr);
 
         ResponseEntity<UserRoles> responseEntity = new ResponseEntity<>(resp, HttpStatus.OK);
 
-        RoleController roleController =
-                new RoleController(restTemplate, objectMapper, redisService);
-
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<UserRoles>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<UserRoles>>any()))
                 .thenReturn(responseEntity);
 
         var out = roleController.getRolesForIdentity(req);
