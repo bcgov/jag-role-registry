@@ -6,9 +6,12 @@ import ca.bc.gov.open.cso.controllers.HealthController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -18,18 +21,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class HealthControllerTests {
 
     @Mock private RestTemplate restTemplate;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private HealthController healthController;
 
-    @Autowired private ObjectMapper objectMapper;
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getHealthTest() throws JsonProcessingException {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         var resp = new GetHealthResponse();
         resp.setAppid("A");
         resp.setCompatibility("A");
@@ -44,10 +50,10 @@ public class HealthControllerTests {
 
         // Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetHealthResponse>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<GetHealthResponse>>any()))
                 .thenReturn(responseEntity);
 
         GetHealthResponse out = healthController.getHealth(new GetHealth());
@@ -58,8 +64,6 @@ public class HealthControllerTests {
     @Test
     public void getPingTest() throws JsonProcessingException {
         // Only needed for log test otherwise required refactor
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         var resp = new GetPingResponse();
         resp.setStatus("A");
 
@@ -67,10 +71,10 @@ public class HealthControllerTests {
 
         // Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetPingResponse>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<GetPingResponse>>any()))
                 .thenReturn(responseEntity);
 
         GetPingResponse out = healthController.getPing(new GetPing());
