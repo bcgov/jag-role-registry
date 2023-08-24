@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Configuration
@@ -23,7 +24,6 @@ public class SecurityConfig {
     @Value("${security.basic-auth.password}")
     private String password;
 
-    @Autowired MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
@@ -34,6 +34,16 @@ public class SecurityConfig {
                         .roles("Admin")
                         .build();
         return new InMemoryUserDetailsManager(user);
+    }
+
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(new AntPathRequestMatcher("/openapi/openapi.yml")).permitAll()
+                        .anyRequest().authenticated())
+                .httpBasic();
+        return http.build();
     }
 
     @Bean
