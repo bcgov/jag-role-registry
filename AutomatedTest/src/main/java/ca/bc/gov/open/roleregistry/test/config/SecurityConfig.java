@@ -37,16 +37,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(new AntPathRequestMatcher("/openapi/openapi.yml")).permitAll()
-                        .anyRequest().authenticated())
-                .httpBasic();
-        return http.build();
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
             @Override

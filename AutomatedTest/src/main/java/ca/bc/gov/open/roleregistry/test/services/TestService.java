@@ -95,9 +95,9 @@ public class TestService {
         runner.setProjectFile("Roleregistry-soapui-project.xml");
         try {
             runner.run();
+            return null;
         } catch (Exception ignored) {
-
+            return zipAndReturnErrors();
         }
-        return zipAndReturnErrors();
     }
 }
