@@ -175,9 +175,9 @@ jobs:
 
       - name: Run Integration Tests
         env:
-          TEST_STARTER_URL: ${{secrets.TEST_STARTER_URL}}
-          BASIC_AUTH_USER: ${{secrets.BASIC_AUTH_USER}}
-          BASIC_AUTH_PASS: ${{secrets.BASIC_AUTH_PASS}}
+          TEST_STARTER_URL: ${{ secrets.TEST_STARTER_URL }}
+          BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+          BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
         run: |
           RET=`curl --write-out '%{content_type}' --output TestErrors.zip --request GET --user ${BASIC_AUTH_USER}:${BASIC_AUTH_PASS} --url ${TEST_STARTER_URL}`
           if [ "$RET" = "application/zip" ]; then
