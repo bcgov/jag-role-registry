@@ -59,11 +59,11 @@ jobs:
           echo "Release Git Sha: ${{env.gitsha}}"
 
       # Set up JDK build environment
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: 11
+          java-version: 17
         
       # Runs build steps
       - name: Maven Package
@@ -175,9 +175,9 @@ jobs:
 
       - name: Run Integration Tests
         env:
-          TEST_STARTER_URL: ${{secrets.TEST_STARTER_URL}}
-          BASIC_AUTH_USER: ${{secrets.BASIC_AUTH_USER}}
-          BASIC_AUTH_PASS: ${{secrets.BASIC_AUTH_PASS}}
+          TEST_STARTER_URL: ${{ secrets.TEST_STARTER_URL }}
+          BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
+          BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
         run: |
           RET=`curl --write-out '%{content_type}' --output TestErrors.zip --request GET --user ${BASIC_AUTH_USER}:${BASIC_AUTH_PASS} --url ${TEST_STARTER_URL}`
           if [ "$RET" = "application/zip" ]; then

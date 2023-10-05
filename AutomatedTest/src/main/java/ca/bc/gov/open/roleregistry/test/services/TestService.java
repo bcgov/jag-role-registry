@@ -55,7 +55,7 @@ public class TestService {
 
     private File zipAndReturnErrors() throws IOException {
         File dir = new File(".");
-        FileFilter fileFilter = new WildcardFileFilter("RoleRegistry*.txt");
+        FileFilter fileFilter = new WildcardFileFilter("CSORolereg*-FAILED.txt");
         File[] files = dir.listFiles(fileFilter);
         sanitizeErrorFiles(files);
         FileOutputStream fos = new FileOutputStream("TestErrors.zip");
@@ -90,6 +90,7 @@ public class TestService {
     }
 
     public File runAllTests() throws IOException {
+        // locate the project
         SoapUITestCaseRunner runner = new SoapUITestCaseRunner();
         runner.setProjectFile("Roleregistry-soapui-project.xml");
         try {

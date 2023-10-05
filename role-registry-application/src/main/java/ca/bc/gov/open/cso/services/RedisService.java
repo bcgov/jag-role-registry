@@ -69,10 +69,9 @@ public class RedisService {
             // Objectmapper is unable to deserialize an empty array into a tag
             // Therefore an empty object is added into the array as following
             if (resp.getBody().getRoles().isEmpty()) {
-                List<RegisteredRole> l = new ArrayList<>();
+                List<RegisteredRole> l = resp.getBody().getRoles();
                 RegisteredRole emptyRole = new RegisteredRole();
                 l.add(emptyRole);
-                resp.getBody().setRoles(l);
             }
 
             log.info("Fetch Success from DB: \"getRolesForIdentifier\"");
@@ -171,10 +170,9 @@ public class RedisService {
             // Objectmapper is unable to deserialize an empty array into a tag
             // Therefore an empty object is added into the array as following
             if (resp.getBody().getRoles().isEmpty()) {
-                List<RegisteredRole> l = new ArrayList<>();
+                List<RegisteredRole> l = resp.getBody().getRoles();
                 RegisteredRole emptyRole = new RegisteredRole();
                 l.add(emptyRole);
-                resp.getBody().setRoles(l);
             }
 
             log.info("Fetch Success from DB: \"getRolesForIdentity\"");
