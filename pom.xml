@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.6</version>
+        <version>3.3.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ca.bc.gov.open</groupId>
@@ -31,6 +31,7 @@
         <module>role-registry-application</module>
         <module>AutomatedTest</module>
         <module>role-registry-common-models</module>
+        <module>role-registry-code-coverage</module>
     </modules>
 
 
