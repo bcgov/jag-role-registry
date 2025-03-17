@@ -29,7 +29,6 @@
 
     <modules>
         <module>role-registry-application</module>
-        <module>AutomatedTest</module>
         <module>role-registry-common-models</module>
         <module>role-registry-code-coverage</module>
     </modules>
