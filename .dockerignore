@@ -1,5 +1,5 @@
 # Ignore everything
-*
+# *
 
 # Allow files and directories
 !./role-registry-application/target/cso-application.jar
