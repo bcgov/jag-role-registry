@@ -3,13 +3,7 @@
 name: Build & Vulnerability Scan using Trivy Scanner
 
 on:
-  push:
-    branches: [ main, release/*]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ main, release/*]
   workflow_dispatch:
-    branches: [ main, release/*, feature/*]
 
 jobs:
   build-scan-image:
@@ -28,27 +22,17 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 17
-        
-      # Runs build steps
-      - name: Maven Package
-        run: mvn -ntp clean package
-        
-      - name: Maven Verify
-        run: mvn -ntp clean verify
 
       - name: Build an image from Dockerfile
-        env:
-          COMPOSE_DOCKER_CLI_BUILD: 1
-          DOCKER_BUILDKIT: 1
         run: |
-          docker build -t docker.io/roleregistry/jag-role-registry:${{ github.sha }} .
+          docker build -t jag-role-registry .
 
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: docker.io/roleregistry/jag-role-registry:${{ github.sha }}
+          image-ref: jag-role-registry
           format: sarif
           output: trivy-results.sarif
           exit-code: 0
