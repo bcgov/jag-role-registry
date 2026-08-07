@@ -75,6 +75,9 @@ Via Docker
 2) Run ```docker build -t role-reg-api .``` from root folder
 3) Run ```docker run -p 8080:8080 role-reg-api $ENV_VAR$```  (Note that $ENV_VAR$ are environment variables)
 
+### Update version
+1) Run ```mvn versions:set -DartifactId=*  -DgroupId=*```
+
 ### Pre Commit
 1) Do not commit \CRLF use unix line enders
 2) Run the linter ```mvn spotless:apply```
