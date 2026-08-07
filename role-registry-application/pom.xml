@@ -226,17 +226,17 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-common</artifactId>
-            <version>4.1.119.Final</version>
+            <version>4.1.136.Final</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-handler</artifactId>
-            <version>4.1.119.Final</version>
+            <version>4.1.136.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-core</artifactId>
-            <version>10.1.45</version>
+            <version>10.1.55</version>
         </dependency>
     </dependencies>
 
