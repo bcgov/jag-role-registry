@@ -1,8 +1,7 @@
 # jag-role-registry
 
 [![Lifecycle:Maturing](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/jag-role-registry)
-[![Maintainability](https://api.codeclimate.com/v1/badges/5a7027d5cc5800eeb2fe/maintainability)](https://codeclimate.com/github/bcgov/jag-role-registry/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/5a7027d5cc5800eeb2fe/test_coverage)](https://codeclimate.com/github/bcgov/jag-role-registry/test_coverage)
+[![Build/Unit Tests](https://github.com/bcgov/jag-role-registry/actions/workflows/build-test-app.yml/badge.svg)](https://github.com/bcgov/jag-role-registry/actions/workflows/build-test-app.yml)
 ### Recommended Tools
 * Intellij
 * Docker
@@ -18,8 +17,6 @@ Local Host: http://127.0.0.1:8080
 WSDL Endpoint Local: http://localhost:8080/ws/RoleRegistry.Source.RoleRegistry.ws.provider:RoleRegistry?WSDL
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
-
-Code Climate: https://codeclimate.com/github/bcgov/jag-role-registry
 
 ### Required Environmental Variables
 
